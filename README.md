@@ -2,10 +2,13 @@
 
 This repository is an open source framework to build LUKSO dApps with ease.
 
+![Front Page](./img/front_page.png)
+
 ## Features
 
 - Reusable components for Universal Profiles, Assets, and Vaults
 - Built-in `ethers`, `erc725`, `lsp-smart-contracts`
+- Uses `Tailwind`, `Prettier`, `TypeScript`
 - Integrates `web3-onboard` for extension selection
 - Network detection and utility
 
@@ -37,6 +40,9 @@ npm run dev
 - [`@web3-onboard/core`](https://www.npmjs.com/package/@web3-onboard/core): Connecting with various Browser Extensions
 - [`@erc725/erc725.js`](https://www.npmjs.com/package/@erc725/erc725.js): ERC725 Smart Contract Interactions
 - [`ethers`](https://www.npmjs.com/package/ethers): Ethereum Library for Blockchain Interactions
+- [`Tailwind`](https://www.npmjs.com/package/tailwindcss): CSS Framework
+- [`Prettier`](https://www.npmjs.com/package/prettier): Code Formatting
+- [`TypeScript`](https://www.npmjs.com/package/typescript): Code Typing
 
 ## Resources
 
