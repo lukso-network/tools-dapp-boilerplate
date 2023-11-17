@@ -1,13 +1,8 @@
-import type { Metadata } from 'next'
+import React from 'react'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import Head from 'next/head'
 
 const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'LYX Builder',
-  description: 'Open Source LUKSO Dev Stack',
-}
 
 export default function RootLayout({
   children,
@@ -15,8 +10,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <div>
+      <Head>
+        <link rel="icon" href="/images/favicon.ico" sizes="any" />
+      </Head>
+      <div className={inter.className}>{children}</div>
+    </div>
   )
 }
