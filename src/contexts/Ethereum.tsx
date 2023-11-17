@@ -1,4 +1,3 @@
-// contexts/EthereumContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 

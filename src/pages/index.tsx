@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/image"
 
 export default function Home() {
   return (
@@ -22,25 +22,29 @@ export default function Home() {
                   src="/lukso_wordmark_black.svg"
                   alt="LUKSO Wordmark"
                   className="dark:invert"
-                  layout="fill"
-                  objectFit="contain"
                   priority
-                />
+                  fill
+                  sizes="100vw"
+                  style={{
+                    objectFit: "contain"
+                  }} />
               </div>
             </a>
           </div>
         </div>
 
-        <div className="relative">
-          <div className="h-44 w-60">
+        <div>
+          <div className="h-44 w-60 relative">
             <Image
               className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
               src="/lyx_token_symbol.svg"
               alt="LYX Token Symbol"
-              layout="fill"
-              objectFit="contain"
               priority
-            />
+              fill
+              sizes="100vw"
+              style={{
+                objectFit: "contain"
+              }} />
           </div>
         </div>
         <div className=" rounded-lg border border-red-100 p-5 bg-pink-50 mt-4">
@@ -189,5 +193,5 @@ export default function Home() {
         </div>
       </main>
     </div>
-  )
+  );
 }
