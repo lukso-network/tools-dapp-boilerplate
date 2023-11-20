@@ -1,0 +1,12 @@
+[
+  {
+    "name": "LUKSO Mainnet",
+    "chainId": "42",
+    "rpcUrl": "https://rpc.lukso.gateway.fm"
+  },
+  {
+    "name": "LUKSO Testnet",
+    "chainId": "4201",
+    "rpcUrl": "https://rpc.testnet.lukso.gateway.fm"
+  }
+]
