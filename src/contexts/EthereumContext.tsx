@@ -5,12 +5,14 @@ interface EthereumContextType {
   provider: any
   account: string | null
   connect: () => Promise<void>
+  disconnect: () => void
 }
 
 const defaultValue: EthereumContextType = {
   provider: null,
   account: null,
   connect: async () => {},
+  disconnect: async () => {},
 }
 
 const EthereumContext = createContext<EthereumContextType>(defaultValue)
@@ -47,12 +49,18 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       const accounts = await provider.send('eth_requestAccounts', [])
       setAccount(accounts[0])
     } catch (error) {
-      console.log('no accounts given')
+      console.log('o accounts given')
     }
   }
 
+  const disconnect = () => {
+    setAccount(null)
+  }
+
   return (
-    <EthereumContext.Provider value={{ provider, account, connect }}>
+    <EthereumContext.Provider
+      value={{ provider, account, connect, disconnect }}
+    >
       {children}
     </EthereumContext.Provider>
   )

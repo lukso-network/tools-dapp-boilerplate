@@ -1,15 +1,18 @@
 import React from 'react'
 import { AppProps } from 'next/app'
 import '../app/globals.css'
-import { EthereumProvider } from '../contexts/Ethereum'
+import { EthereumProvider } from '../contexts/EthereumContext'
 import RootLayout from '../app/layout'
+import { NetworkProvider } from '@/contexts/NetworkContext'
 
 function LYXBuilder({ Component, pageProps }: AppProps) {
   return (
     <EthereumProvider>
-      <RootLayout>
-        <Component {...pageProps} />
-      </RootLayout>
+      <NetworkProvider>
+        <RootLayout>
+          <Component {...pageProps} />
+        </RootLayout>
+      </NetworkProvider>
     </EthereumProvider>
   )
 }
