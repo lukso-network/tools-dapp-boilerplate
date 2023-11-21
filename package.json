@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@erc725/erc725.js": "^0.21.2",
+    "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^6.8.1",
     "next": "14.0.2",
     "prettier": "^3.1.0",
