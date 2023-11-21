@@ -2,11 +2,13 @@
   {
     "name": "LUKSO Mainnet",
     "chainId": "42",
-    "rpcUrl": "https://rpc.lukso.gateway.fm"
+    "rpcUrl": "https://rpc.lukso.gateway.fm",
+    "ipfsGateway": "https://api.universalprofile.cloud/ipfs"
   },
   {
     "name": "LUKSO Testnet",
     "chainId": "4201",
-    "rpcUrl": "https://rpc.testnet.lukso.gateway.fm"
+    "rpcUrl": "https://rpc.testnet.lukso.gateway.fm",
+    "ipfsGateway": "https://api.universalprofile.cloud/ipfs"
   }
 ]
