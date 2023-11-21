@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image from 'next/image'
 
 export default function Home() {
   return (
@@ -26,8 +26,9 @@ export default function Home() {
                   fill
                   sizes="100vw"
                   style={{
-                    objectFit: "contain"
-                  }} />
+                    objectFit: 'contain',
+                  }}
+                />
               </div>
             </a>
           </div>
@@ -43,8 +44,9 @@ export default function Home() {
               fill
               sizes="100vw"
               style={{
-                objectFit: "contain"
-              }} />
+                objectFit: 'contain',
+              }}
+            />
           </div>
         </div>
         <div className=" rounded-lg border border-red-100 p-5 bg-pink-50 mt-4">
@@ -193,5 +195,5 @@ export default function Home() {
         </div>
       </main>
     </div>
-  );
+  )
 }
