@@ -33,3 +33,20 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+.elementBox {
+  border: 2px solid #db2776;
+  margin: 0 2rem 2rem 2rem;
+  padding: 2rem;
+  align-items: center;
+  border-radius: 1rem;
+  min-width: 264px;
+}
+
+.elementDescription {
+  text-align: center;
+}
+
+.coloredHeading {
+  color: #db2776;
+}
