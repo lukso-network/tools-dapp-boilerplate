@@ -8,7 +8,7 @@ const provider = new ethers.BrowserProvider(window.ethereum)
  *
  * @param contractAddress contract to call
  * @param interfaceId interface ID to check
- * @returns
+ * @returns true if interface was detected
  */
 export async function supportsInterface(
   contractAddress: string,
