@@ -21,7 +21,7 @@ function NetworkSwitcher() {
     <select
       value={network ?? ''}
       onChange={handleNetworkChange}
-      className="m-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow-sm focus:border-pink-600 focus:ring focus:ring-pink-600 focus:ring-opacity-50 p-2 focus:outline-none"
+      className="m-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none"
     >
       {supportedNetworks.map((net) => (
         <option key={net.chainId} value={net.name}>

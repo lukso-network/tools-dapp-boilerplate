@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --lukso-pink: #f6025b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,8 +35,13 @@ body {
   background-attachment: fixed;
 }
 
+.main-content {
+  height: calc(100vh - 64px);
+}
+
 .elementBox {
-  border: 2px solid #db2776;
+  border: 2px solid #fde2e2;
+  background-color: #fdf2f8;
   margin: 0 2rem 2rem 2rem;
   padding: 2rem;
   align-items: center;
@@ -47,6 +53,17 @@ body {
   text-align: center;
 }
 
-.coloredHeading {
-  color: #db2776;
+.bg-lukso-pink {
+  background-color: var(--lukso-pink);
+}
+
+.bg-lukso-pink:hover {
+  background-color: #ef2b6c;
+}
+
+select:focus {
+  border-color: var(--lukso-pink);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--lukso-pink);
 }
