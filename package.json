@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@erc725/erc725.js": "^0.21.2",
+    "@lukso/lsp-smart-contracts": "^0.12.1",
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^6.8.1",
     "next": "14.0.2",
