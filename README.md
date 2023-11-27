@@ -7,7 +7,7 @@ This repository is an open source framework to build LUKSO dApps with ease.
 ## Features
 
 - Reusable components for Universal Profiles, Assets, and Vaults
-- Built-in `ethers`, `erc725`, `lsp-smart-contracts`
+- Built-in [`ethers.js`](https://docs.ethers.org/), [`erc725.js`](https://docs.lukso.tech/tools/erc725js/getting-started), [`lsp-smart-contracts`](https://docs.lukso.tech/tools/lsp-smart-contracts/getting-started)
 - Uses `Tailwind`, `Prettier`, `TypeScript`
 - Integrates `web3-onboard` for extension selection
 - Network detection and utility
@@ -48,8 +48,3 @@ npm run dev
 
 - [LUKSO Documentation](https://docs.lukso.tech/)
 - [Next.js Documentation](https://nextjs.org/docs)
-
-## Deployment
-
-- [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-- [Next.js Deployments](https://nextjs.org/docs/deployment)
