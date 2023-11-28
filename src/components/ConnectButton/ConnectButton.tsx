@@ -1,6 +1,12 @@
-import { useNetwork } from '@/contexts/NetworkContext'
 import { useEthereum } from '../../contexts/EthereumContext'
 
+/**
+ * Provides a button for connecting to and disconnecting from an
+ * Ethereum-based blockchain. It leverages the useEthereum hook
+ * from the EthereumContext for managing blockchain connections.
+ *
+ * @returns {JSX.Element} - A JSX structure of the button
+ */
 function ConnectButton() {
   const { connect, disconnect, account } = useEthereum()
 

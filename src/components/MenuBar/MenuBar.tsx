@@ -1,6 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
 
+/**
+ * Provides a top navigation bar including links to all pages.
+ *
+ * @returns {JSX.Element} - JSX structure of the navigation bar
+ */
 const MenuBar = () => {
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
