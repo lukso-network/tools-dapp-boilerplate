@@ -1,5 +1,10 @@
 import MenuBar from '@/components/MenuBar'
 
+/**
+ * Displays the contents of the utility page within the app.
+ *
+ * @returns {JSX.Element} - JSX structure of the utility page.
+ */
 export default function Utility() {
   return (
     <>

@@ -1,6 +1,11 @@
 import MenuBar from '@/components/MenuBar'
 import Image from 'next/image'
 
+/**
+ * Displays the contents of the landing page within the app.
+ *
+ * @returns {JSX.Element} - JSX structure of the landing page.
+ */
 export default function Home() {
   return (
     <>
