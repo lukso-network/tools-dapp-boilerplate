@@ -1,5 +1,10 @@
 import MenuBar from '@/components/MenuBar'
 
+/**
+ * Displays the contents of the contexts page within the app.
+ *
+ * @returns {JSX.Element} - JSX structure of the contexts page.
+ */
 export default function Contexts() {
   return (
     <>
