@@ -4,11 +4,11 @@ import erc165ABI from './erc165ABI.json'
 const provider = new ethers.BrowserProvider(window.ethereum)
 
 /**
- * Checks if a contract has a certain ERC165 interface
+ * Checks if a smart contract has a certain ERC165 interface.
  *
- * @param contractAddress contract to call
- * @param interfaceId interface ID to check
- * @returns true if interface was detected
+ * @param contractAddress smart contract to call.
+ * @param interfaceId interface ID to check.
+ * @returns true if interface was detected.
  */
 export async function supportsInterface(
   contractAddress: string,
