@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import erc165ABI from './erc165ABI.json'
+import erc165ABI from '../consts/ERC165ABI.json'
 
 const provider = new ethers.BrowserProvider(window.ethereum)
 
