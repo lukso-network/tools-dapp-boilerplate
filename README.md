@@ -7,10 +7,11 @@ This repository is an open source framework to build LUKSO dApps with ease.
 ## Features
 
 - Reusable components for Universal Profiles, Assets, and Vaults
+- Shared contexts for Profiles, Networks, and the Extension
+- Network, interface, and metadata detection
+- Integrates `web3-onboard` for extension selection
 - Built-in [`ethers.js`](https://docs.ethers.org/), [`erc725.js`](https://docs.lukso.tech/tools/erc725js/getting-started), [`lsp-smart-contracts`](https://docs.lukso.tech/tools/lsp-smart-contracts/getting-started)
 - Uses `Tailwind`, `Prettier`, `TypeScript`
-- Integrates `web3-onboard` for extension selection
-- Network detection and utility
 
 ## Development
 
