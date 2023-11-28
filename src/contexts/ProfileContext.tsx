@@ -35,15 +35,35 @@ const initialProfileContextValue: ProfileContextType = {
   profile: null,
 }
 
+// Set up the empty React context
 const ProfileContext = createContext<ProfileContextType>(
   initialProfileContextValue
 )
 
+/**
+ * Custom hook to use the Profile context across the application.
+ *
+ * @returns {ProfileContextType} - The profile state containing all properties.
+ */
+export function useProfile() {
+  return useContext(ProfileContext)
+}
+
+/**
+ * Provider component for the Profile context, handling property checks and
+ * maintaining its state during account and chain changes.
+ *
+ * @param {React.ReactNode} { children } - Child components using the Profile context.
+ * @returns {JSX.Element} - The JSX structure that wraps the child components to provide
+ *                          access to it's state and functionalities.
+ */
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
+  // State for the Profile provider
   const { account } = useEthereum()
   const { network } = useNetwork()
   const [profile, setProfile] = useState(null)
 
+  // Initialize the profile state and listen for account/chain changes
   useEffect(() => {
     const fetchProfileData = async () => {
       if (!account || !network) {
@@ -51,6 +71,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
         return
       }
 
+      // Get the current network properties from the list of supported networks
       const currentNetwork = supportedNetworks.find(
         (net) => net.name === network
       )
@@ -60,6 +81,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
         return
       }
 
+      // Instanciate the LSP3-based smart contract
       const erc725js = new ERC725(
         lsp3ProfileSchema as ERC725JSONSchema[],
         account,
@@ -68,12 +90,14 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
       )
 
       try {
+        // Download and verify the full profile metadata
         const profileMetaData = await erc725js.fetchData('LSP3Profile')
         if (
           profileMetaData.value &&
           typeof profileMetaData.value === 'object' &&
           'LSP3Profile' in profileMetaData.value
         ) {
+          // Update the profile state
           setProfile(profileMetaData.value.LSP3Profile)
         }
       } catch (error) {
@@ -89,8 +113,4 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
       {children}
     </ProfileContext.Provider>
   )
-}
-
-export function useProfile() {
-  return useContext(ProfileContext)
 }

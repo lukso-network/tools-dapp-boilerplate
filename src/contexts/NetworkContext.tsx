@@ -12,19 +12,36 @@ const defaultValue: NetworkContextType = {
   switchNetwork: async () => {},
 }
 
+// Set up the empty React context
 const NetworkContext = createContext<NetworkContextType>(defaultValue)
 
+/**
+ * Custom hook to use the Network context across the application.
+ *
+ * @returns {NetworkContextType} - The network state and switchNetwork function.
+ */
 export function useNetwork() {
   return useContext(NetworkContext)
 }
 
+/**
+ * Provider component for the Network context, handling network support checks and
+ * maintaining its state during network changes.
+ *
+ * @param {React.ReactNode} { children } - Child components using the Network context.
+ * @returns {JSX.Element} - The JSX structure that wraps the child components to provide
+ *                          access to it's state and functionalities.
+ */
 export function NetworkProvider({ children }: { children: React.ReactNode }) {
+  // State for the Network provider
   const [network, setNetwork] = useState<string | null>(null)
 
+  // Checks if the given chain ID is in the list of supported networks
   const isNetworkSupported = (chainId: bigint) => {
     return supportedNetworks.some((net) => BigInt(net.chainId) === chainId)
   }
 
+  // Initialize the network state and listen for chain changes
   useEffect(() => {
     if (window.ethereum) {
       const provider = new ethers.BrowserProvider(window.ethereum)
@@ -51,11 +68,13 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
         } else {
           console.log('Unsupported network')
         }
+        // Reload the page when the chain changes
         window.location.reload()
       })
     }
   }, [])
 
+  // Change to a different Ethereum network
   const switchNetwork = async (networkId: string) => {
     if (window.ethereum) {
       const networkDetails = supportedNetworks.find(
@@ -66,6 +85,7 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
         console.log('Network details not found for chainId:', networkId)
         return
       }
+      // If network is already set up within the extension, switch
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
@@ -75,7 +95,7 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         if (error instanceof Error && 'code' in error) {
           const switchError = error as { code: number }
-          // Chain has not been added yet.
+          // If network has not been added yet, set it up within the extension
           if (switchError.code === 4902) {
             try {
               await window.ethereum.request({
