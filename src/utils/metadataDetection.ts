@@ -4,12 +4,12 @@ import { ERC725 } from '@erc725/erc725.js'
 const provider = new ethers.BrowserProvider(window.ethereum)
 
 /**
- * Checks if a contract supports a specific ERC725Y data key.
+ * Checks if a smart contract supports a specific ERC725Y data key.
  *
- * @param contractAddress  contract to call
- * @param schema schema of the ERC725Y storage value
- * @param key standardized name of the ERC725Y data key
- * @returns true if data key was detected
+ * @param contractAddress smart contract to call.
+ * @param schema schema of the ERC725Y storage value.
+ * @param key standardized name of the ERC725Y data key.
+ * @returns true if data key was detected.
  */
 export async function supportsMetadata(
   contractAddress: string,
