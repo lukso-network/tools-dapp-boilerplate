@@ -5,6 +5,13 @@ import { useEthereum } from '../../contexts/EthereumContext'
 import identicon from 'ethereum-blockies-base64'
 import styles from './ProfilePreview.module.css'
 
+/**
+ * Displays the user's profile information including images,
+ * name, account address, description, and tags. It uses the useProfile and
+ * useEthereum hooks to fetch profile and account data, respectively.
+ *
+ * @returns {JSX.Element} - JSX structure of a user profile card.
+ */
 const ProfilePreview: React.FC = () => {
   const { profile } = useProfile()
   const { account } = useEthereum()
@@ -24,7 +31,7 @@ const ProfilePreview: React.FC = () => {
           layout="fill"
           objectFit="cover"
           className={`${styles.profileBackground} rounded-lg absolute inset-0 z-0`}
-        />
+        /> // Background image
       )}
 
       <div className="flex justify-center relative z-10">
@@ -32,7 +39,7 @@ const ProfilePreview: React.FC = () => {
           className={`${styles.profileImage} w-24 h-24 bg-gray-200 rounded-full overflow-hidden relative border-4 border-white`}
         >
           {!profile?.profileImage || profile.profileImage.length === 0 ? (
-            <div className="w-full h-full bg-gray-300 rounded-full"></div> // Grey background if no image
+            <div className="w-full h-full bg-gray-300 rounded-full"></div> // Show grey background if there is no image
           ) : (
             <Image
               src={profile.profileImage[0].url.replace(
@@ -43,14 +50,14 @@ const ProfilePreview: React.FC = () => {
               layout="fill"
               objectFit="cover"
               className="rounded-full"
-            />
+            /> // Profile Image
           )}
         </div>
         <div
           className={`${styles.blockie} absolute mb-6 mr-6 bg-gray-200 rounded-full overflow-hidden border-4 border-white`}
         >
           {!profile?.profileImage || profile.profileImage.length === 0 ? (
-            <div className="w-full h-full bg-gray-300 rounded-full"></div> // Grey background if no image
+            <div className="w-full h-full bg-gray-300 rounded-full"></div> // Show grey background if there is no image
           ) : (
             <Image
               src={identiconUrl}
@@ -58,7 +65,7 @@ const ProfilePreview: React.FC = () => {
               layout="fill"
               objectFit="cover"
               className="rounded-full"
-            />
+            /> // Identicon
           )}
         </div>
       </div>
@@ -73,7 +80,7 @@ const ProfilePreview: React.FC = () => {
         ) : (
           <div
             className={`${styles.emptyDescription} w-full bg-gray-300 mt-2 rounded-lg`}
-          ></div>
+          ></div> // Profile Description
         )}
 
         {profile?.tags && (
@@ -86,7 +93,7 @@ const ProfilePreview: React.FC = () => {
                 {tag}
               </a>
             ))}
-          </div>
+          </div> // Profile Tags
         )}
       </div>
     </div>
