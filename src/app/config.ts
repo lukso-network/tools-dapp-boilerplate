@@ -1,3 +1,6 @@
+/**
+ * Metadata of the application
+ */
 export const config = {
   metadata: {
     title: 'LYX Builder',
