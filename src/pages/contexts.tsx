@@ -27,13 +27,13 @@ export default function Contexts() {
                   Get the current browser provider
                 </p>
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white mr-2 text-center">
-                  Connect to the Universal Profile
+                  Connect and disconnect the Universal Profile
                 </p>
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white mr-2 text-center">
                   Act on provider or address changes
                 </p>
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white text-center">
-                  Disconnect the Universal Profile
+                  Select wallet extensions using Web3 Onboard
                 </p>
               </div>
             </div>
