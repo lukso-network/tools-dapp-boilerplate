@@ -11,6 +11,9 @@
   "dependencies": {
     "@erc725/erc725.js": "^0.21.2",
     "@lukso/lsp-smart-contracts": "^0.12.1",
+    "@lukso/web3-onboard-config": "^1.1.0",
+    "@web3-onboard/core": "^2.21.2",
+    "@web3-onboard/injected-wallets": "^2.10.10",
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^6.8.1",
     "next": "14.0.2",
