@@ -34,9 +34,14 @@ const injected = injectedModule({
 // Web3-Onboard: Set up App description
 const onboardAppMetadata = {
   name: config.metadata.title,
-  // Valid Image URL or SVG as string
-  icon: '/lyx_token_symbol.svg',
-  logo: '/lyx_token_symbol.svg',
+  /**
+   * Valid Image URL or SVG as string
+   * Icon that shows behind the extension
+   * on the right wallet side
+   */
+  icon: '/lukso_wordmark_black.svg',
+  // Logo that shows on the left
+  logo: '/lukso_wordmark_fuchsia.svg',
   description: config.metadata.description,
   recommendedInjectedWallets: [
     {
