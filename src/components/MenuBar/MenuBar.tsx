@@ -17,7 +17,7 @@ const MenuBar = () => {
                 href="/"
                 className="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900"
               >
-                <span className="font-bold ml-2">LUKSO dApp Boilerplate</span>
+                <span className="font-bold ml-2">dApp Boilerplate</span>
               </Link>
             </div>
           </div>
