@@ -17,23 +17,23 @@ export default function Contexts() {
             <div className="mb-32 lg:mb-0 lg:max-w-3xl opacity-70 text-sm">
               You can import the <code className="font-bold">useEthereum</code>{' '}
               context within any page or component in order to globally manage
-              the connected Universal Profile Extension. The{' '}
+              the connected Universal Profile Browser Extension. The{' '}
               <code className="font-bold">
                 src/contexts/EthereumContext.tsx
               </code>{' '}
-              can be used to:
+              can:
               <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left group mt-4">
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white mr-2 text-center">
                   Get the current browser provider
                 </p>
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white mr-2 text-center">
-                  Connect and disconnect the Universal Profile
+                  Connect and remove the Universal Profile
                 </p>
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white mr-2 text-center">
                   Act on provider or address changes
                 </p>
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white text-center">
-                  Select wallet extensions using Web3 Onboard
+                  Toggle Web3 Onboard functionality
                 </p>
               </div>
             </div>
@@ -43,11 +43,11 @@ export default function Contexts() {
             <div className="mb-32 lg:mb-0 lg:max-w-3xl opacity-70 text-sm">
               You can import the <code className="font-bold">useProfile</code>{' '}
               context within any page or component in order to globally manage
-              profile data from the Universal Profile Extension. The{' '}
+              profile data from the Universal Profile Browser Extension. The{' '}
               <code className="font-bold">
                 src/contexts/EthereumContext.tsx
               </code>{' '}
-              can be used to:
+              can:
               <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left group mt-4">
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white mr-2 text-center">
                   Retrieve and decode metadata of the Universal Profile
@@ -66,9 +66,10 @@ export default function Contexts() {
             <div className="mb-32 lg:mb-0 lg:max-w-3xl opacity-70 text-sm">
               You can import the <code className="font-bold">useNetwork</code>{' '}
               context within any page or component in order to globally manage
-              the network connection of the Universal Profile Extension. The{' '}
+              the network connection of the Universal Profile Browser Extension.
+              The{' '}
               <code className="font-bold">src/contexts/NetworkContext.tsx</code>{' '}
-              can be used to:
+              can:
               <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left group mt-4">
                 <p className="text-sm rounded-lg border px-5 py-4 border-slate-200 bg-white mr-2 text-center">
                   Get the current selected network
