@@ -1,4 +1,4 @@
-# lyx-builder
+# lukso-dapp-boilerplate
 
 This repository is an open source framework to build LUKSO dApps with ease.
 
@@ -18,7 +18,7 @@ This repository is an open source framework to build LUKSO dApps with ease.
 Clone the repository:
 
 ```bash
-git clone git@github.com:lukso-network/lyx-builder.git
+git clone git@github.com:lukso-network/tools-dapp-boilerplate.git
 ```
 
 Install all packages and libraries:

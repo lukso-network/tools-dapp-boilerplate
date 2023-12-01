@@ -13,7 +13,7 @@ import { ProfileProvider } from '@/contexts/ProfileContext'
  * @param {AppProps} { Component, pageProps } - Current page and its properties.
  * @returns {JSX.Element} - The JSX structure for the root of the application.
  */
-function LYXBuilder({ Component, pageProps }: AppProps) {
+function LUKSOdAppBoilerplate({ Component, pageProps }: AppProps) {
   return (
     <EthereumProvider>
       <NetworkProvider>
@@ -27,4 +27,4 @@ function LYXBuilder({ Component, pageProps }: AppProps) {
   )
 }
 
-export default LYXBuilder
+export default LUKSOdAppBoilerplate
