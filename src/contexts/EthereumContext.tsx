@@ -36,11 +36,15 @@ const onboardAppMetadata = {
   name: config.metadata.title,
   /**
    * Valid Image URL or SVG as string
-   * Icon that shows behind the extension
+   *
+   * Icon shows behind the extension icon
    * on the right wallet side
    */
   icon: '/lukso_wordmark_black.svg',
-  // Logo that shows on the left
+  /**
+   * Logo shows left of the provider
+   * window, indicating the used app
+   */
   logo: '/lukso_wordmark_fuchsia.svg',
   description: config.metadata.description,
   recommendedInjectedWallets: [
