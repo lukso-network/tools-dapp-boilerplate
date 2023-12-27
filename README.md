@@ -1,6 +1,6 @@
 # 🚧 LUKSO dApp Boilerplate
 
-This repository is an open source framework to build LUKSO dApps with ease. More information is available on our 👉 [technical documentation](http://localhost:3000/learn/introduction).
+This repository is an open source framework to build LUKSO dApps with ease. More information is available on our 👉 [technical documentation](https://docs.lukso.tech/learn/introduction).
 
 ![Front Page](./img/front_page.png)
 
