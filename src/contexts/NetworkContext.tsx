@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { ethers } from 'ethers'
 import supportedNetworks from '../consts/SupportedNetworks.json'
-
+import { useEthereum } from './EthereumContext'
 interface NetworkContextType {
   network: string | null
   switchNetwork: (networkId: string) => Promise<void>
@@ -33,6 +32,9 @@ export function useNetwork() {
  *                          access to it's state and functionalities.
  */
 export function NetworkProvider({ children }: { children: React.ReactNode }) {
+  // Gloabl provider object
+  const { provider } = useEthereum()
+
   // State for the Network provider
   const [network, setNetwork] = useState<string | null>(null)
 
@@ -43,9 +45,11 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize the network state and listen for chain changes
   useEffect(() => {
-    if (window.ethereum) {
-      const provider = new ethers.BrowserProvider(window.ethereum)
-
+    /*
+     * Check if global provider is set up
+     * and base window objects can be called
+     */
+    if (provider) {
       provider.getNetwork().then((net) => {
         if (isNetworkSupported(net.chainId)) {
           const networkDetails = supportedNetworks.find(
@@ -54,12 +58,13 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
           if (networkDetails) {
             setNetwork(networkDetails.name)
           }
-        } else {
-          console.log('Unsupported network')
         }
       })
 
-      window.ethereum.on('chainChanged', (chainId: bigint) => {
+      // Fallback to base provider object for event listening
+      const providerObject = window.lukso || window.ethereum
+
+      providerObject.on('chainChanged', (chainId: bigint) => {
         if (isNetworkSupported(chainId)) {
           const networkDetails = supportedNetworks.find(
             (network) => BigInt(network.chainId) === chainId
@@ -72,11 +77,16 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
         window.location.reload()
       })
     }
-  }, [])
+  }, [provider])
 
   // Change to a different Ethereum network
   const switchNetwork = async (networkId: string) => {
-    if (window.ethereum) {
+    /*
+     * Check if global provider is set up
+     * and base window objects can be called
+     */
+    if (provider) {
+      // Seach for supported network ID
       const networkDetails = supportedNetworks.find(
         (net) => net.chainId === networkId
       )
@@ -85,9 +95,13 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
         console.log('Network details not found for chainId:', networkId)
         return
       }
+
+      // Fallback to base provider object for extension requests
+      const providerObject = window.lukso || window.ethereum
+
       // If network is already set up within the extension, switch
       try {
-        await window.ethereum.request({
+        await providerObject.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: '0x' + BigInt(networkId).toString(16) }],
         })
@@ -98,7 +112,7 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
           // If network has not been added yet, set it up within the extension
           if (switchError.code === 4902) {
             try {
-              await window.ethereum.request({
+              await providerObject.request({
                 method: 'wallet_addEthereumChain',
                 params: [
                   {
