@@ -4,7 +4,13 @@ const nextConfig = {
     /** Whitelisted domains for optimized image loading
      *  @next/image
      */
-    domains: ['api.universalprofile.cloud'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.universalprofile.cloud',
+        pathname: '**',
+      },
+    ],
   },
 }
 
