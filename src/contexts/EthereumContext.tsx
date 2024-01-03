@@ -130,18 +130,27 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize the provider and listen for account/chain changes
   useEffect(() => {
-    if (window.ethereum) {
-      const provider = new ethers.BrowserProvider(window.ethereum)
+    /*
+     * Check if the Universal Profile extension or regular
+     * wallet injected the related window object
+     */
+    const providerObject = window.lukso || window.ethereum
+
+    // Set global provider
+    if (providerObject) {
+      const provider = new ethers.BrowserProvider(providerObject)
       setProvider(provider)
 
-      window.ethereum.on('accountsChanged', (accounts: string[]) => {
+      providerObject.on('accountsChanged', (accounts: string[]) => {
         setAccount(accounts[0] || null)
       })
 
       // Reload the page when the chain changes
-      window.ethereum.on('chainChanged', () => {
+      providerObject.on('chainChanged', () => {
         window.location.reload()
       })
+    } else {
+      console.log('No wallet extension found')
     }
   }, [])
 
