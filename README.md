@@ -1,4 +1,4 @@
-# LUKSO dApp Boilerplate
+# 🏗️ LUKSO dApp Boilerplate
 
 This repository is an open-source framework to build LUKSO dApps with ease. More information is available on our 👉 [technical documentation](https://docs.lukso.tech/learn/introduction).
 
