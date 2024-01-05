@@ -32,6 +32,7 @@ Run the development server:
 ```bash
 npm run dev
 ```
+If your interested in watching an introduction video to this dapp starter you can watch the youtube video [here](https://youtu.be/OxJi7O7ts0Q?si=JuwCEYtI1FNf1VtS)
 
 ## Tools
 
