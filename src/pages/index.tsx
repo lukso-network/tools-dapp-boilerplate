@@ -140,7 +140,7 @@ export default function Home() {
               This Application Framework was created using Next for React. Visit
               the{' '}
               <a
-                href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
+                href="https://docs.lukso.tech/learn/dapp-developer/getting-started"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:text-blue-700"
@@ -148,15 +148,6 @@ export default function Home() {
                 {' '}
                 Developer Documentation{' '}
               </a>
-              and{' '}
-              <a
-                href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-700"
-              >
-                Guides
-              </a>{' '}
               for further information.
             </div>
           </div>
