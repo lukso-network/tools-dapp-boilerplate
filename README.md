@@ -2,6 +2,8 @@
 
 This repository is a TypeScript/Next.js based open-source framework to build LUKSO dApps with ease.
 
+Demo URL: <https://boilerplate.lukso.tech/>
+
 More information is available on our 👉 [technical documentation](https://docs.lukso.tech/learn/introduction).
 
 ![Front Page](./img/front_page.png)
