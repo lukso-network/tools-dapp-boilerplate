@@ -1,11 +1,18 @@
+// General
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { ethers } from 'ethers'
+
+// Web3-Onboard
 import Onboard, { OnboardAPI } from '@web3-onboard/core'
 import injectedModule from '@web3-onboard/injected-wallets'
 import luksoModule from '@lukso/web3-onboard-config'
 import supportedNetworks from '../consts/SupportedNetworks.json'
 import { config } from '../app/config'
 import { ConnectModalOptions } from '@web3-onboard/core/dist/types'
+
+// Sign In With Ethereum
+import { SiweMessage } from 'siwe'
+import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json'
 
 // Web3-Onboard: LUKSO provider initialization
 const onboardLuksoProvider = luksoModule()
@@ -87,7 +94,9 @@ interface EthereumContextType {
   connect: () => Promise<void>
   disconnect: () => void
   useOnboard: boolean
-  toggleOnboard: () => void // Function to toggle between Web3-Onboard and regular provider
+  toggleOnboard: () => void // Toggle between Web3-Onboard and regular provider
+  signInWithEthereum: () => Promise<void>
+  verified: boolean // Check if user is signed in
 }
 
 const defaultValue: EthereumContextType = {
@@ -97,6 +106,8 @@ const defaultValue: EthereumContextType = {
   disconnect: async () => {},
   useOnboard: true,
   toggleOnboard: () => {},
+  signInWithEthereum: async () => {},
+  verified: false,
 }
 
 // Set up the empty React context
@@ -127,6 +138,9 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
   // Adjust this state value to disable Web3-Onboard
   const [useOnboard, setUseOnboard] = useState(true)
+
+  // Sign in with Ethereum
+  const [verified, setVerified] = useState<boolean>(false)
 
   // Initialize the provider and listen for account/chain changes
   useEffect(() => {
@@ -171,6 +185,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
           localStorage.removeItem('ethereumAccount')
         }
         setAccount(null)
+        setVerified(false)
       })
     } else {
       console.log('No wallet extension found')
@@ -207,11 +222,60 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
   // Disconnect the provider by resetting the app's account
   const disconnect = () => {
     setAccount(null)
+    setVerified(false)
   }
 
   // Toggle function
   const toggleOnboard = () => {
     setUseOnboard(!useOnboard)
+  }
+
+  // Sign In With Ethereum
+  const signInWithEthereum = async () => {
+    // SIWE requires an connected account
+    if (!account || !provider) {
+      console.log('No account connected')
+      return
+    }
+
+    // Get chain ID of provider.
+    const { chainId } = await provider.getNetwork()
+
+    const siweMessage = new SiweMessage({
+      domain: window.location.host,
+      address: account,
+      statement: 'By logging in you agree to the terms and conditions.',
+      uri: window.location.origin,
+      version: '1',
+      chainId: Number(chainId),
+      resources: ['https://boilerplate.lukso.tech'],
+    })
+
+    const message = siweMessage.prepareMessage()
+    console.log('firstmessage:', message)
+    const hashedMessage = ethers.hashMessage(message)
+
+    try {
+      const signer = await provider.getSigner()
+      const signature = await signer.signMessage(message)
+
+      // Create the UniversalProfile contract instance
+      const myUniversalProfileContract = new ethers.Contract(
+        account,
+        UniversalProfileContract.abi,
+        provider
+      )
+
+      const isValidSignature =
+        await myUniversalProfileContract.isValidSignature(
+          hashedMessage,
+          signature
+        )
+
+      setVerified(isValidSignature === '0x1626ba7e')
+    } catch (error) {
+      console.error('Error on signing message: ', error)
+    }
   }
 
   return (
@@ -223,6 +287,8 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         disconnect,
         useOnboard,
         toggleOnboard,
+        signInWithEthereum,
+        verified,
       }}
     >
       {children}
