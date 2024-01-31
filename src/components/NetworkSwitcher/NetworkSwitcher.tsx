@@ -1,14 +1,15 @@
 import React from 'react'
-import { useNetwork } from '../../contexts/NetworkContext'
-import supportedNetworks from '../../consts/SupportedNetworks.json'
+import { useNetwork } from '@/contexts/NetworkContext'
+import supportedNetworks from '@/consts/SupportedNetworks.json'
 
 /**
  * Allows users to switch between different Ethereum networks.
- * It uses the useNetwork hook for network state and switchNetwork function.
+ * The component uses the useNetwork hook for network state and
+ * switchNetwork function.
  *
  * @returns {JSX.Element} - JSX structure for network selection dropdown.
  */
-function NetworkSwitcher() {
+const NetworkSwitcher: React.FC = () => {
   const { network, switchNetwork } = useNetwork()
 
   // Changes the network if selection is triggered

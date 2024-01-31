@@ -7,8 +7,9 @@ import styles from './ProfilePreview.module.css'
 
 /**
  * Displays the user's profile information including images,
- * name, account address, description, and tags. It uses the useProfile and
- * useEthereum hooks to fetch profile and account data, respectively.
+ * name, account address, description, and tags. The component
+ * uses the useProfile and useEthereum hooks to fetch profile
+ * and account data, respectively.
  *
  * @returns {JSX.Element} - JSX structure of a user profile card.
  */

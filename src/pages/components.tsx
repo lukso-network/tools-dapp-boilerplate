@@ -2,6 +2,7 @@ import ConnectButton from '@/components/ConnectButton'
 import MenuBar from '@/components/MenuBar'
 import NetworkSwitcher from '@/components/NetworkSwitcher/NetworkSwitcher'
 import ProfilePreview from '@/components/ProfilePreview'
+import SignInButton from '@/components/SignInButton'
 
 /**
  * Displays the contents of the components page within the app.
@@ -19,6 +20,12 @@ export default function Components() {
               <label className="opacity-70">ConnectButton.tsx</label>
               <div className="elementBox">
                 <ConnectButton />
+              </div>
+            </div>
+            <div className="elementDescription">
+              <label className="opacity-70">SignInButton.tsx</label>
+              <div className="elementBox">
+                <SignInButton />
               </div>
             </div>
             <div className="elementDescription">
