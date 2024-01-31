@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
-import { useProfile } from '../../contexts/ProfileContext'
-import { useEthereum } from '../../contexts/EthereumContext'
+import { useProfile } from '@/contexts/ProfileContext'
+import { useEthereum } from '@/contexts/EthereumContext'
 import identicon from 'ethereum-blockies-base64'
 import styles from './ProfilePreview.module.css'
 

@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import erc165ABI from '../consts/ERC165ABI.json'
+import erc165ABI from '@/consts/ERC165ABI.json'
 
 /*
  * Initialize base provider to get current blockchain network

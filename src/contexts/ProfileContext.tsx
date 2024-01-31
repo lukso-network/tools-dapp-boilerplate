@@ -3,7 +3,7 @@ import { useEthereum } from './EthereumContext' // Import your Ethereum context
 import { ERC725, ERC725JSONSchema } from '@erc725/erc725.js'
 import lsp3ProfileSchema from '@erc725/erc725.js/schemas/LSP3ProfileMetadata.json' assert { type: 'json' }
 import { useNetwork } from './NetworkContext'
-import supportedNetworks from '../consts/SupportedNetworks.json'
+import supportedNetworks from '@/consts/SupportedNetworks.json'
 
 interface Profile {
   name: string
