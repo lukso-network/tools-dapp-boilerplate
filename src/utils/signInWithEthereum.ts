@@ -4,7 +4,21 @@ import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/Unive
 import { ethers } from 'ethers'
 import { EIP_1271_MAGIC_VALUE } from '@/consts/constants'
 
-// Sign In With Ethereum
+/**
+ * Performs sign in with Ethereum in with a wallet or Universal
+ * Profile to proof ownership over an address.
+ *
+ * Documentation: https://docs.lukso.tech/learn/dapp-developer/siwe
+ *
+ * @param {object} params - The parameters for the sign-in operation.
+ * @param {string | null} params.account - The Ethereum account address to sign in with.
+ * @param {ethers.BrowserProvider | null} params.provider - The provider connected to the blockchain.
+ * @param {(data: AccountData) => void} params.updateAccountInfo - Callback function to update the account information in the application's state.
+ * @param {number} params.chainId - The chain ID of the blockchain to which the provider is connected.
+ *
+ * @returns {Promise<void>} A promise that resolves when the sign-in operation is complete.
+ *
+ */
 const signInWithEthereum = async ({
   account,
   provider,

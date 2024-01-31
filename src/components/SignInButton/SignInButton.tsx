@@ -4,8 +4,9 @@ import { useProfile } from '@/contexts/ProfileContext'
 import signInWithEthereum from '@/utils/signInWithEthereum'
 /**
  * Provides a button for signing in with a wallet or Universal
- * Profile and proofing ownership over an address. Docs:
- * https://docs.lukso.tech/learn/dapp-developer/siwe
+ * Profile and proofing ownership over an address.
+ *
+ * Documentation: https://docs.lukso.tech/learn/dapp-developer/siwe
  *
  * It leverages the following hooks:
  * - useEthereum: sign and verify the message

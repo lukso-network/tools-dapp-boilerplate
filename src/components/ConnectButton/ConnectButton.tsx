@@ -1,4 +1,4 @@
-import { useEthereum } from '../../contexts/EthereumContext'
+import { useEthereum } from '@/contexts/EthereumContext'
 
 /**
  * Provides a button for connecting to and disconnecting from an

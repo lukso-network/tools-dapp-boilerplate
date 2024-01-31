@@ -1,6 +1,6 @@
 import React from 'react'
-import { useNetwork } from '../../contexts/NetworkContext'
-import supportedNetworks from '../../consts/SupportedNetworks.json'
+import { useNetwork } from '@/contexts/NetworkContext'
+import supportedNetworks from '@/consts/SupportedNetworks.json'
 
 /**
  * Allows users to switch between different Ethereum networks.
