@@ -1,7 +1,7 @@
-// Sign In With Ethereum
 import { SiweMessage } from 'siwe'
-import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json'
 import { ethers } from 'ethers'
+import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json'
+
 import { EIP_1271_MAGIC_VALUE } from '@/consts/constants'
 
 /**

@@ -8,7 +8,7 @@ import signInWithEthereum from '@/utils/signInWithEthereum'
  *
  * Documentation: https://docs.lukso.tech/learn/dapp-developer/siwe
  *
- * It leverages the following hooks:
+ * The component leverages the following hooks:
  * - useEthereum: sign and verify the message
  * - useNetwork: restrict button to supported networks
  * - useProfile: show profile name once signed in.
