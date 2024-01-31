@@ -1,6 +1,7 @@
 import React from 'react'
-import { Inter } from 'next/font/google'
 import Head from 'next/head'
+import { Inter } from 'next/font/google'
+
 import { config } from '@/app/config'
 
 const inter = Inter({ subsets: ['latin'] })

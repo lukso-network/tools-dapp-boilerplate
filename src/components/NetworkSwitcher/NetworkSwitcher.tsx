@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { useNetwork } from '../../contexts/NetworkContext'
 import supportedNetworks from '../../consts/SupportedNetworks.json'
 

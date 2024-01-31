@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
+
 import { ethers } from 'ethers'
 import Onboard, { OnboardAPI } from '@web3-onboard/core'
 import injectedModule from '@web3-onboard/injected-wallets'
+import { ConnectModalOptions } from '@web3-onboard/core/dist/types'
 import luksoModule from '@lukso/web3-onboard-config'
+
 import supportedNetworks from '../consts/SupportedNetworks.json'
 import { config } from '../app/config'
-import { ConnectModalOptions } from '@web3-onboard/core/dist/types'
 
 // Web3-Onboard: LUKSO provider initialization
 const onboardLuksoProvider = luksoModule()

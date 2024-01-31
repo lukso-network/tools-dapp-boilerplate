@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
+
 import supportedNetworks from '@/consts/SupportedNetworks.json'
 import { useEthereum } from './EthereumContext'
 interface NetworkContextType {
