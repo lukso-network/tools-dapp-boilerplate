@@ -1,4 +1,4 @@
-import MenuBar from '@/components/MenuBar'
+import MenuBar from '@/components/MenuBar';
 
 /**
  * Displays the contents of the contexts page within the app.
@@ -89,5 +89,5 @@ export default function Contexts() {
         </div>
       </div>
     </>
-  )
+  );
 }

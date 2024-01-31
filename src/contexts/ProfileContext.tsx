@@ -1,46 +1,46 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-import lsp3ProfileSchema from '@erc725/erc725.js/schemas/LSP3ProfileMetadata.json' assert { type: 'json' }
-import { ERC725, ERC725JSONSchema } from '@erc725/erc725.js'
+import lsp3ProfileSchema from '@erc725/erc725.js/schemas/LSP3ProfileMetadata.json' assert { type: 'json' };
+import { ERC725, ERC725JSONSchema } from '@erc725/erc725.js';
 
-import supportedNetworks from '@/consts/SupportedNetworks.json'
-import { useEthereum } from './EthereumContext'
-import { useNetwork } from './NetworkContext'
+import supportedNetworks from '@/consts/SupportedNetworks.json';
+import { useEthereum } from './EthereumContext';
+import { useNetwork } from './NetworkContext';
 
 interface Profile {
-  name: string
-  description: string
-  tags: string[]
-  links: Link[]
-  profileImage: Image[]
-  backgroundImage: Image[]
+  name: string;
+  description: string;
+  tags: string[];
+  links: Link[];
+  profileImage: Image[];
+  backgroundImage: Image[];
 }
 
 interface Link {
-  title: string
-  url: string
+  title: string;
+  url: string;
 }
 
 interface Image {
-  width: number
-  height: number
-  hashFunction: string
-  hash: string
-  url: string
+  width: number;
+  height: number;
+  hashFunction: string;
+  hash: string;
+  url: string;
 }
 
 interface ProfileContextType {
-  profile: Profile | null
+  profile: Profile | null;
 }
 
 const initialProfileContextValue: ProfileContextType = {
   profile: null,
-}
+};
 
 // Set up the empty React context
 const ProfileContext = createContext<ProfileContextType>(
   initialProfileContextValue
-)
+);
 
 /**
  * Custom hook to use the Profile context across the application.
@@ -48,7 +48,7 @@ const ProfileContext = createContext<ProfileContextType>(
  * @returns {ProfileContextType} - The profile state containing all properties.
  */
 export function useProfile() {
-  return useContext(ProfileContext)
+  return useContext(ProfileContext);
 }
 
 /**
@@ -61,26 +61,26 @@ export function useProfile() {
  */
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
   // State for the Profile provider
-  const { account } = useEthereum()
-  const { network } = useNetwork()
-  const [profile, setProfile] = useState(null)
+  const { account } = useEthereum();
+  const { network } = useNetwork();
+  const [profile, setProfile] = useState(null);
 
   // Initialize the profile state and listen for account/chain changes
   useEffect(() => {
     const fetchProfileData = async () => {
       if (!account || !network) {
-        setProfile(null)
-        return
+        setProfile(null);
+        return;
       }
 
       // Get the current network properties from the list of supported networks
       const currentNetwork = supportedNetworks.find(
         (net) => net.name === network
-      )
+      );
 
       if (!currentNetwork) {
-        setProfile(null)
-        return
+        setProfile(null);
+        return;
       }
 
       // Instanciate the LSP3-based smart contract
@@ -89,30 +89,30 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
         account,
         currentNetwork.rpcUrl,
         { ipfsGateway: currentNetwork.ipfsGateway }
-      )
+      );
 
       try {
         // Download and verify the full profile metadata
-        const profileMetaData = await erc725js.fetchData('LSP3Profile')
+        const profileMetaData = await erc725js.fetchData('LSP3Profile');
         if (
           profileMetaData.value &&
           typeof profileMetaData.value === 'object' &&
           'LSP3Profile' in profileMetaData.value
         ) {
           // Update the profile state
-          setProfile(profileMetaData.value.LSP3Profile)
+          setProfile(profileMetaData.value.LSP3Profile);
         }
       } catch (error) {
-        console.error('Error fetching profile data:', error)
+        console.error('Error fetching profile data:', error);
       }
-    }
+    };
 
-    fetchProfileData()
-  }, [account, network])
+    fetchProfileData();
+  }, [account, network]);
 
   return (
     <ProfileContext.Provider value={{ profile }}>
       {children}
     </ProfileContext.Provider>
-  )
+  );
 }

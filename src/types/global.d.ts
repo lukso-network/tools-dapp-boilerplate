@@ -2,6 +2,6 @@
  * Global imports and interfaces for TypeScript.
  */
 interface Window {
-  ethereum: any
-  lukso: any
+  ethereum: any;
+  lukso: any;
 }

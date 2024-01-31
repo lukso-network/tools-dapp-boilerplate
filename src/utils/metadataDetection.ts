@@ -1,15 +1,15 @@
-import { ethers } from 'ethers'
-import { ERC725 } from '@erc725/erc725.js'
+import { ethers } from 'ethers';
+import { ERC725 } from '@erc725/erc725.js';
 
 /*
  * Initialize base provider to get current blockchain network
  * The RPC URL can also be passed as string manually, see:
  * https://docs.lukso.tech/tools/erc725js/getting-started
  */
-const providerObject = window.lukso || window.ethereum
+const providerObject = window.lukso || window.ethereum;
 const provider = providerObject
   ? new ethers.BrowserProvider(providerObject)
-  : null
+  : null;
 /**
  * Checks if a smart contract supports a specific ERC725Y data key.
  *
@@ -24,17 +24,17 @@ export async function supportsMetadata(
   key: string
 ): Promise<boolean> {
   if (!provider) {
-    console.error('Provider not available.')
-    return false
+    console.error('Provider not available.');
+    return false;
   }
-  const erc725 = new ERC725(schema, contractAddress, provider, {})
+  const erc725 = new ERC725(schema, contractAddress, provider, {});
 
   try {
-    const data = await erc725.getData(key)
-    return data.value !== null
+    const data = await erc725.getData(key);
+    return data.value !== null;
   } catch (error) {
-    console.error('Error fetching metadata:', error)
-    return false
+    console.error('Error fetching metadata:', error);
+    return false;
   }
 }
 

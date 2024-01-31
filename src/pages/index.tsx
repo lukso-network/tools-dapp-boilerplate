@@ -1,6 +1,6 @@
-import Image from 'next/image'
+import Image from 'next/image';
 
-import MenuBar from '@/components/MenuBar'
+import MenuBar from '@/components/MenuBar';
 
 /**
  * Displays the contents of the landing page within the app.
@@ -155,5 +155,5 @@ export default function Home() {
         </main>
       </div>
     </>
-  )
+  );
 }

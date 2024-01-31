@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import { useNetwork } from '../../contexts/NetworkContext'
-import supportedNetworks from '../../consts/SupportedNetworks.json'
+import { useNetwork } from '../../contexts/NetworkContext';
+import supportedNetworks from '../../consts/SupportedNetworks.json';
 
 /**
  * Allows users to switch between different Ethereum networks.
@@ -10,20 +10,20 @@ import supportedNetworks from '../../consts/SupportedNetworks.json'
  * @returns {JSX.Element} - JSX structure for network selection dropdown.
  */
 function NetworkSwitcher() {
-  const { network, switchNetwork } = useNetwork()
+  const { network, switchNetwork } = useNetwork();
 
   // Changes the network if selection is triggered
   const handleNetworkChange = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const selectedNetworkName = event.target.value
+    const selectedNetworkName = event.target.value;
     const selectedNetwork = supportedNetworks.find(
       (net) => net.name === selectedNetworkName
-    )
+    );
     if (selectedNetwork) {
-      await switchNetwork(selectedNetwork.chainId)
+      await switchNetwork(selectedNetwork.chainId);
     }
-  }
+  };
 
   return (
     <select
@@ -37,7 +37,7 @@ function NetworkSwitcher() {
         </option> // Renders supported networks defined within SupportedNetworks.json
       ))}
     </select>
-  )
+  );
 }
 
-export default NetworkSwitcher
+export default NetworkSwitcher;

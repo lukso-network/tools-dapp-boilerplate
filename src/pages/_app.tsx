@@ -1,11 +1,11 @@
-import React from 'react'
-import { AppProps } from 'next/app'
+import React from 'react';
+import { AppProps } from 'next/app';
 
-import '@/app/globals.css'
-import RootLayout from '@/app/layout'
-import { EthereumProvider } from '@/contexts/EthereumContext'
-import { NetworkProvider } from '@/contexts/NetworkContext'
-import { ProfileProvider } from '@/contexts/ProfileContext'
+import '@/app/globals.css';
+import RootLayout from '@/app/layout';
+import { EthereumProvider } from '@/contexts/EthereumContext';
+import { NetworkProvider } from '@/contexts/NetworkContext';
+import { ProfileProvider } from '@/contexts/ProfileContext';
 
 /**
  * The root component of this application. It wraps all pages
@@ -25,7 +25,7 @@ function LUKSOdAppBoilerplate({ Component, pageProps }: AppProps) {
         </ProfileProvider>
       </NetworkProvider>
     </EthereumProvider>
-  )
+  );
 }
 
-export default LUKSOdAppBoilerplate
+export default LUKSOdAppBoilerplate;

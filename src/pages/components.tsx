@@ -1,7 +1,7 @@
-import ConnectButton from '@/components/ConnectButton'
-import MenuBar from '@/components/MenuBar'
-import NetworkSwitcher from '@/components/NetworkSwitcher/NetworkSwitcher'
-import ProfilePreview from '@/components/ProfilePreview'
+import ConnectButton from '@/components/ConnectButton';
+import MenuBar from '@/components/MenuBar';
+import NetworkSwitcher from '@/components/NetworkSwitcher/NetworkSwitcher';
+import ProfilePreview from '@/components/ProfilePreview';
 
 /**
  * Displays the contents of the components page within the app.
@@ -39,5 +39,5 @@ export default function Components() {
         </div>
       </div>
     </>
-  )
+  );
 }

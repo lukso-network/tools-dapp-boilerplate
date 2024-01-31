@@ -1,10 +1,10 @@
-import React from 'react'
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
+import React from 'react';
+import Head from 'next/head';
+import { Inter } from 'next/font/google';
 
-import { config } from '@/app/config'
+import { config } from '@/app/config';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 /**
  * Defines the basic layout for the application. It includes the
@@ -16,7 +16,7 @@ const inter = Inter({ subsets: ['latin'] })
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <div>
@@ -27,5 +27,5 @@ export default function RootLayout({
       </Head>
       <div className={inter.className}>{children}</div>
     </div>
-  )
+  );
 }

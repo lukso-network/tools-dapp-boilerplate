@@ -1,4 +1,4 @@
-import { useEthereum } from '../../contexts/EthereumContext'
+import { useEthereum } from '../../contexts/EthereumContext';
 
 /**
  * Provides a button for connecting to and disconnecting from an
@@ -8,7 +8,7 @@ import { useEthereum } from '../../contexts/EthereumContext'
  * @returns {JSX.Element} - A JSX structure of the button
  */
 function ConnectButton() {
-  const { connect, disconnect, account } = useEthereum()
+  const { connect, disconnect, account } = useEthereum();
 
   return (
     <div>
@@ -28,7 +28,7 @@ function ConnectButton() {
         </button>
       )}
     </div>
-  )
+  );
 }
 
-export default ConnectButton
+export default ConnectButton;

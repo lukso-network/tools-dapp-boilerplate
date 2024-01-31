@@ -1,4 +1,4 @@
-import MenuBar from '@/components/MenuBar'
+import MenuBar from '@/components/MenuBar';
 
 /**
  * Displays the contents of the utility page within the app.
@@ -37,5 +37,5 @@ export default function Utility() {
         </div>
       </div>
     </>
-  )
+  );
 }

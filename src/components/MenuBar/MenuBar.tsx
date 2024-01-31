@@ -1,5 +1,5 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
 /**
  * Provides a top navigation bar including links to all pages.
@@ -44,7 +44,7 @@ const MenuBar = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default MenuBar
+export default MenuBar;
