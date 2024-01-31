@@ -8,7 +8,7 @@ import supportedNetworks from '../../consts/SupportedNetworks.json'
  *
  * @returns {JSX.Element} - JSX structure for network selection dropdown.
  */
-function NetworkSwitcher() {
+const NetworkSwitcher: React.FC = () => {
   const { network, switchNetwork } = useNetwork()
 
   // Changes the network if selection is triggered

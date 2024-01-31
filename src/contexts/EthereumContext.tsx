@@ -96,13 +96,13 @@ interface EthereumContextType {
   useOnboard: boolean
   toggleOnboard: () => void // Toggle between Web3-Onboard and regular provider
   signInWithEthereum: () => Promise<void>
-  verified: boolean // Check if user is signed in
+  isVerified: boolean // Check if user is signed in
 }
 
 // Store Ethereum context properties
 interface AccountData {
   account: string | null
-  verified: boolean
+  isVerified: boolean
 }
 
 const defaultValue: EthereumContextType = {
@@ -113,7 +113,7 @@ const defaultValue: EthereumContextType = {
   useOnboard: true,
   toggleOnboard: () => {},
   signInWithEthereum: async () => {},
-  verified: false,
+  isVerified: false,
 }
 
 // Set up the empty React context
@@ -144,7 +144,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
   // Manage account address and sign in status
   const [accountData, setAccountData] = useState<AccountData>({
     account: null,
-    verified: false,
+    isVerified: false,
   })
 
   // Adjust this state value to disable Web3-Onboard
@@ -225,7 +225,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         setProvider(onboardProvider)
         updateAccountInfo({
           account: wallets[0].accounts[0].address,
-          verified: false,
+          isVerified: false,
         })
       }
     }
@@ -239,7 +239,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         const accounts = await provider.send('eth_requestAccounts', [])
         updateAccountInfo({
           account: accounts[0],
-          verified: false,
+          isVerified: false,
         })
       } catch (error) {
         console.log('User denied connection request')
@@ -255,7 +255,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('accountData')
     setAccountData({
       account: null,
-      verified: false,
+      isVerified: false,
     })
   }
 
@@ -316,7 +316,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
       updateAccountInfo({
         ...accountData,
-        verified: isValidSignature === '0x1626ba7e',
+        isVerified: isValidSignature === '0x1626ba7e',
       })
     } catch (error) {
       console.error('Error on signing message: ', error)
@@ -333,7 +333,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         useOnboard,
         toggleOnboard,
         signInWithEthereum,
-        verified: accountData.verified,
+        isVerified: accountData.isVerified,
       }}
     >
       {children}

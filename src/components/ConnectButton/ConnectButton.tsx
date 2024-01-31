@@ -7,7 +7,7 @@ import { useEthereum } from '../../contexts/EthereumContext'
  *
  * @returns {JSX.Element} - A JSX structure of the button
  */
-function ConnectButton() {
+const ConnectButton: React.FC = () => {
   const { connect, disconnect, account } = useEthereum()
 
   return (
