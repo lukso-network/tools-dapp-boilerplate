@@ -13,7 +13,6 @@ import { ConnectModalOptions } from '@web3-onboard/core/dist/types'
 // Sign In With Ethereum
 import { SiweMessage } from 'siwe'
 import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json'
-import { sign } from 'crypto'
 
 // Web3-Onboard: LUKSO provider initialization
 const onboardLuksoProvider = luksoModule()
@@ -179,21 +178,36 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       const provider = new ethers.BrowserProvider(providerObject)
       setProvider(provider)
 
-      // Update address of the UP on profile swap
+      // Handle incoming address changes
       providerObject.on('accountsChanged', (accounts: string[]) => {
-        updateAccountInfo({ account: accounts[0], verified: false })
+        if (accounts.length === 0) {
+          disconnect()
+          return
+        }
+
+        const incomingAccount = accounts[0]
+
+        /**
+         * If the UP address was initialized already and differs
+         * from the incoming address, users will be disconnected,
+         * as the UP extension only supports one active account
+         * connection at a time.
+         */
+        if (
+          accountData.account !== null &&
+          accountData.account !== incomingAccount
+        ) {
+          disconnect()
+        }
       })
 
-      // Update address of the UP on chain swap
+      /**
+       * Disconnect the account on network changes, as the
+       * UP extension only supports one active account
+       * connection at a time.
+       */
       providerObject.on('chainChanged', () => {
-        /**
-         * Clear the account from local storage and state
-         * as smart contract address of UP will change
-         */
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('accountData')
-        }
-        setAccountData({ account: null, verified: false })
+        disconnect()
       })
     } else {
       console.log('No wallet extension found')
@@ -233,7 +247,10 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  // Disconnect the provider by resetting the app's account
+  /**
+   * Disconnect by clearing the account
+   * from local storage and state
+   */
   const disconnect = () => {
     localStorage.removeItem('accountData')
     setAccountData({
@@ -272,6 +289,14 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     const hashedMessage = ethers.hashMessage(message)
 
     try {
+      /**
+       * Get the signer of the extension.
+       *
+       * Within the UP extension, this will return the single
+       * connected profile. To keep compatability with regular
+       * wallets allowing for multiple connections, the current
+       * account address is passed.
+       */
       const signer = await provider.getSigner(accountData.account)
 
       const signature = await signer.signMessage(message)
