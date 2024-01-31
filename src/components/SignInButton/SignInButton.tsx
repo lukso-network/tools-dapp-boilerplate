@@ -1,7 +1,7 @@
 import { useEthereum } from '@/contexts/EthereumContext'
 import { useNetwork } from '@/contexts/NetworkContext'
 import { useProfile } from '@/contexts/ProfileContext'
-import SignInWithEthereum from '@/utils/SignInWithEthereum'
+import signInWithEthereum from '@/utils/signInWithEthereum'
 /**
  * Provides a button for signing in with a wallet or Universal
  * Profile and proofing ownership over an address. Docs:
@@ -41,7 +41,7 @@ const SignInButton: React.FC = () => {
   const handleSignIn = async () => {
     if (provider && account) {
       const { chainId } = await provider.getNetwork()
-      SignInWithEthereum({
+      signInWithEthereum({
         account,
         provider,
         updateAccountInfo,

@@ -2,9 +2,10 @@
 import { SiweMessage } from 'siwe'
 import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json'
 import { ethers } from 'ethers'
+import { EIP_1271_MAGIC_VALUE } from '@/consts/constants'
 
 // Sign In With Ethereum
-const SignInWithEthereum = async ({
+const signInWithEthereum = async ({
   account,
   provider,
   updateAccountInfo,
@@ -62,11 +63,11 @@ const SignInWithEthereum = async ({
     // Update global account data
     updateAccountInfo({
       account: account,
-      isVerified: isValidSignature === '0x1626ba7e',
+      isVerified: isValidSignature === EIP_1271_MAGIC_VALUE,
     })
   } catch (error) {
     console.error('Error on signing message: ', error)
   }
 }
 
-export default SignInWithEthereum
+export default signInWithEthereum
