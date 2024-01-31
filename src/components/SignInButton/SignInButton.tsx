@@ -33,8 +33,14 @@ function SignInButton() {
     buttonClass = 'm-2 bg-lukso-pink text-white font-bold py-2 px-4 rounded'
     disabled = false
   } else if (account && verified && profile) {
+    // User is connected and logged in
+    const maxLength = 10
+    const name = profile.name
+    const profileName =
+      name.length > maxLength ? `${name.substring(0, maxLength)}...` : name
+
     // User is connected and verified
-    buttonText = `Signed in as ${profile.name.substring(0, 10)}`
+    buttonText = `Signed in as ${profileName}`
     buttonAction = null
     buttonClass = 'm-2 bg-emerald-400 text-white font-bold py-2 px-4 rounded'
     disabled = true

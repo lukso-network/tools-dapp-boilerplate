@@ -13,6 +13,7 @@ import { ConnectModalOptions } from '@web3-onboard/core/dist/types'
 // Sign In With Ethereum
 import { SiweMessage } from 'siwe'
 import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json'
+import { sign } from 'crypto'
 
 // Web3-Onboard: LUKSO provider initialization
 const onboardLuksoProvider = luksoModule()
@@ -99,6 +100,12 @@ interface EthereumContextType {
   verified: boolean // Check if user is signed in
 }
 
+// Store Ethereum context properties
+interface AccountData {
+  account: string | null
+  verified: boolean
+}
+
 const defaultValue: EthereumContextType = {
   provider: null,
   account: null,
@@ -134,31 +141,33 @@ export function useEthereum() {
 export function EthereumProvider({ children }: { children: React.ReactNode }) {
   // State for the Ethereum provider and the connected account
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null)
-  const [account, setAccount] = useState<string | null>(null)
+
+  // Manage account address and sign in status
+  const [accountData, setAccountData] = useState<AccountData>({
+    account: null,
+    verified: false,
+  })
 
   // Adjust this state value to disable Web3-Onboard
   const [useOnboard, setUseOnboard] = useState(true)
 
-  // Sign in with Ethereum
-  const [verified, setVerified] = useState<boolean>(false)
+  const updateAccountInfo = async (newData: AccountData) => {
+    setAccountData(newData)
+    if (typeof window !== 'undefined') {
+      // save address and SIWE value to local storage
+      localStorage.setItem('accountData', JSON.stringify(newData))
+    }
+  }
 
   // Initialize the provider and listen for account/chain changes
   useEffect(() => {
-    const updateAccountInfo = async (newAccount: string) => {
-      setAccount(newAccount)
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('ethereumAccount', newAccount) // save account to local storage
-      }
+    // Load user data from localStorage if available
+    const storedAccountData =
+      typeof window !== 'undefined' ? localStorage.getItem('accountData') : null
+    if (storedAccountData) {
+      setAccountData(JSON.parse(storedAccountData))
     }
 
-    // Load account from localStorage if available
-    const storedAccount =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('ethereumAccount')
-        : null
-    if (storedAccount) {
-      updateAccountInfo(storedAccount)
-    }
     /*
      * Check if the Universal Profile extension or regular
      * wallet injected the related window object
@@ -172,7 +181,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
       // Update address of the UP on profile swap
       providerObject.on('accountsChanged', (accounts: string[]) => {
-        updateAccountInfo(accounts[0])
+        updateAccountInfo({ account: accounts[0], verified: false })
       })
 
       // Update address of the UP on chain swap
@@ -182,17 +191,16 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
          * as smart contract address of UP will change
          */
         if (typeof window !== 'undefined') {
-          localStorage.removeItem('ethereumAccount')
+          localStorage.removeItem('accountData')
         }
-        setAccount(null)
-        setVerified(false)
+        setAccountData({ account: null, verified: false })
       })
     } else {
       console.log('No wallet extension found')
     }
   }, [])
 
-  // Connect to the Ethereum network using the user's extension
+  // Connect to the Ethereum network in the user's extension
   const connect = async () => {
     // If Web3-Onboard is enabled
     if (useOnboard) {
@@ -201,7 +209,10 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       if (wallets.length > 0) {
         const onboardProvider = new ethers.BrowserProvider(wallets[0].provider)
         setProvider(onboardProvider)
-        setAccount(wallets[0].accounts[0].address)
+        updateAccountInfo({
+          account: wallets[0].accounts[0].address,
+          verified: false,
+        })
       }
     }
     // Regular Connection
@@ -212,7 +223,10 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       }
       try {
         const accounts = await provider.send('eth_requestAccounts', [])
-        setAccount(accounts[0])
+        updateAccountInfo({
+          account: accounts[0],
+          verified: false,
+        })
       } catch (error) {
         console.log('User denied connection request')
       }
@@ -221,8 +235,11 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
   // Disconnect the provider by resetting the app's account
   const disconnect = () => {
-    setAccount(null)
-    setVerified(false)
+    localStorage.removeItem('accountData')
+    setAccountData({
+      account: null,
+      verified: false,
+    })
   }
 
   // Toggle function
@@ -233,7 +250,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
   // Sign In With Ethereum
   const signInWithEthereum = async () => {
     // SIWE requires an connected account
-    if (!account || !provider) {
+    if (!accountData.account || !provider) {
       console.log('No account connected')
       return
     }
@@ -243,7 +260,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
     const siweMessage = new SiweMessage({
       domain: window.location.host,
-      address: account,
+      address: accountData.account,
       statement: 'By logging in you agree to the terms and conditions.',
       uri: window.location.origin,
       version: '1',
@@ -252,16 +269,16 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     })
 
     const message = siweMessage.prepareMessage()
-    console.log('firstmessage:', message)
     const hashedMessage = ethers.hashMessage(message)
 
     try {
-      const signer = await provider.getSigner()
+      const signer = await provider.getSigner(accountData.account)
+
       const signature = await signer.signMessage(message)
 
       // Create the UniversalProfile contract instance
       const myUniversalProfileContract = new ethers.Contract(
-        account,
+        accountData.account,
         UniversalProfileContract.abi,
         provider
       )
@@ -272,7 +289,10 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
           signature
         )
 
-      setVerified(isValidSignature === '0x1626ba7e')
+      updateAccountInfo({
+        ...accountData,
+        verified: isValidSignature === '0x1626ba7e',
+      })
     } catch (error) {
       console.error('Error on signing message: ', error)
     }
@@ -282,13 +302,13 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     <EthereumContext.Provider
       value={{
         provider,
-        account,
+        account: accountData.account,
         connect,
         disconnect,
         useOnboard,
         toggleOnboard,
         signInWithEthereum,
-        verified,
+        verified: accountData.verified,
       }}
     >
       {children}
