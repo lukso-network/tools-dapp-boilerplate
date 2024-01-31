@@ -1,7 +1,7 @@
-import { useEthereum } from '../../contexts/EthereumContext'
+import { useEthereum } from '@/contexts/EthereumContext'
 import { useNetwork } from '@/contexts/NetworkContext'
-import { useProfile } from '../../contexts/ProfileContext'
-
+import { useProfile } from '@/contexts/ProfileContext'
+import SignInWithEthereum from '@/utils/SignInWithEthereum'
 /**
  * Provides a button for signing in with a wallet or Universal
  * Profile and proofing ownership over an address. Docs:
@@ -15,7 +15,7 @@ import { useProfile } from '../../contexts/ProfileContext'
  * @returns {JSX.Element} - A JSX structure of the button
  */
 const SignInButton: React.FC = () => {
-  const { account, isVerified, signInWithEthereum } = useEthereum()
+  const { account, provider, isVerified, updateAccountInfo } = useEthereum()
   const { network } = useNetwork()
   const { profile } = useProfile()
 
@@ -38,10 +38,22 @@ const SignInButton: React.FC = () => {
     buttonClass = 'bg-emerald-400 text-white'
   }
 
+  const handleSignIn = async () => {
+    if (provider && account) {
+      const { chainId } = await provider.getNetwork()
+      SignInWithEthereum({
+        account,
+        provider,
+        updateAccountInfo,
+        chainId: Number(chainId),
+      })
+    }
+  }
+
   return (
     <button
       className={`m-2 font-bold py-2 px-4 rounded ${buttonClass}`}
-      onClick={signInWithEthereum}
+      onClick={handleSignIn}
       disabled={isDisabled}
     >
       {buttonText}
