@@ -8,6 +8,6 @@ interface Window {
 
 // Ethereum Context properties
 interface AccountData {
-  account: string | null
-  isVerified: boolean
+  account: string | null;
+  isVerified: boolean;
 }

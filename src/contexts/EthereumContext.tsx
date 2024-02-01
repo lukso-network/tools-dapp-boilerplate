@@ -84,14 +84,14 @@ const web3OnboardComponent: OnboardAPI = Onboard({
 
 // Regular provider setup
 interface EthereumContextType {
-  provider: ethers.BrowserProvider | null
-  account: string | null
-  updateAccountInfo: (newData: AccountData) => void
-  connect: () => Promise<void>
-  disconnect: () => void
-  useOnboard: boolean
-  toggleOnboard: () => void // Toggle between Web3-Onboard and regular provider
-  isVerified: boolean // Check if user is signed in
+  provider: ethers.BrowserProvider | null;
+  account: string | null;
+  updateAccountInfo: (newData: AccountData) => void;
+  connect: () => Promise<void>;
+  disconnect: () => void;
+  useOnboard: boolean;
+  toggleOnboard: () => void; // Toggle between Web3-Onboard and regular provider
+  isVerified: boolean; // Check if user is signed in
 }
 
 const defaultValue: EthereumContextType = {
@@ -103,7 +103,7 @@ const defaultValue: EthereumContextType = {
   useOnboard: true,
   toggleOnboard: () => {},
   isVerified: false,
-}
+};
 
 // Set up the empty React context
 const EthereumContext = createContext<EthereumContextType>(defaultValue);
@@ -128,13 +128,13 @@ export function useEthereum() {
 
 export function EthereumProvider({ children }: { children: React.ReactNode }) {
   // State for the Ethereum provider and the connected account
-  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null)
+  const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
 
   // Manage account address and sign in status
   const [accountData, setAccountData] = useState<AccountData>({
     account: null,
     isVerified: false,
-  })
+  });
 
   // Adjust this state value to disable Web3-Onboard
   const [useOnboard, setUseOnboard] = useState(true);
@@ -143,9 +143,11 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Load user data from localStorage if available
     const storedAccountData =
-      typeof window !== 'undefined' ? localStorage.getItem('accountData') : null
+      typeof window !== 'undefined'
+        ? localStorage.getItem('accountData')
+        : null;
     if (storedAccountData) {
-      setAccountData(JSON.parse(storedAccountData))
+      setAccountData(JSON.parse(storedAccountData));
     }
 
     /*
@@ -162,11 +164,11 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       // Handle incoming address changes
       providerObject.on('accountsChanged', (accounts: string[]) => {
         if (accounts.length === 0) {
-          disconnect()
-          return
+          disconnect();
+          return;
         }
 
-        const incomingAccount = accounts[0]
+        const incomingAccount = accounts[0];
 
         /**
          * If the UP address was initialized already and differs
@@ -178,9 +180,9 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
           accountData.account !== null &&
           accountData.account !== incomingAccount
         ) {
-          disconnect()
+          disconnect();
         }
-      })
+      });
 
       /**
        * Disconnect the account on network changes, as the
@@ -188,20 +190,20 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
        * connection at a time.
        */
       providerObject.on('chainChanged', () => {
-        disconnect()
-      })
+        disconnect();
+      });
     } else {
       console.log('No wallet extension found');
     }
-  }, [accountData.account])
+  }, [accountData.account]);
 
   const updateAccountInfo = async (newData: AccountData) => {
-    setAccountData(newData)
+    setAccountData(newData);
     if (typeof window !== 'undefined') {
       // save address and SIWE value to local storage
-      localStorage.setItem('accountData', JSON.stringify(newData))
+      localStorage.setItem('accountData', JSON.stringify(newData));
     }
-  }
+  };
 
   // Connect to the Ethereum network in the user's extension
   const connect = async () => {
@@ -210,12 +212,12 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       // Connection logic using web3-onboard
       const wallets = await web3OnboardComponent.connectWallet();
       if (wallets.length > 0) {
-        const onboardProvider = new ethers.BrowserProvider(wallets[0].provider)
-        setProvider(onboardProvider)
+        const onboardProvider = new ethers.BrowserProvider(wallets[0].provider);
+        setProvider(onboardProvider);
         updateAccountInfo({
           account: wallets[0].accounts[0].address,
           isVerified: false,
-        })
+        });
       }
     }
     // Regular Connection
@@ -225,11 +227,11 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       try {
-        const accounts = await provider.send('eth_requestAccounts', [])
+        const accounts = await provider.send('eth_requestAccounts', []);
         updateAccountInfo({
           account: accounts[0],
           isVerified: false,
-        })
+        });
       } catch (error) {
         console.log('User denied connection request');
       }
@@ -241,12 +243,12 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
    * from local storage and state
    */
   const disconnect = () => {
-    localStorage.removeItem('accountData')
+    localStorage.removeItem('accountData');
     setAccountData({
       account: null,
       isVerified: false,
-    })
-  }
+    });
+  };
 
   // Toggle function
   const toggleOnboard = () => {

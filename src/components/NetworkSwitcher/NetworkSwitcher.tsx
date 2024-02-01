@@ -39,6 +39,6 @@ const NetworkSwitcher: React.FC = () => {
       ))}
     </select>
   );
-}
+};
 
 export default NetworkSwitcher;

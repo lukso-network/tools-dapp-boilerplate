@@ -29,6 +29,6 @@ const ConnectButton: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
 export default ConnectButton;
