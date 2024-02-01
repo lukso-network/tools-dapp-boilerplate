@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 import { ethers } from 'ethers';
 import Onboard, { OnboardAPI } from '@web3-onboard/core';
@@ -106,7 +112,7 @@ const defaultValue: EthereumContextType = {
   updateVerification: () => {},
   connect: async () => {},
   disconnect: async () => {},
-  useOnboard: true,
+  useOnboard: false,
   toggleOnboard: () => {},
   isVerified: false,
 };
@@ -142,6 +148,35 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
   // Adjust this state value to disable Web3-Onboard
   const [useOnboard, setUseOnboard] = useState(true);
+
+  /**
+   * Disconnect by clearing the account
+   * from local storage and state
+   */
+  const disconnect = useCallback(async () => {
+    localStorage.removeItem('accountData');
+    setAccountData({
+      account: null,
+      isVerified: false,
+    });
+
+    /**
+     * If Web3-Onboard is enabled, also
+     * clear the external wallet state
+     */
+    if (useOnboard) {
+      // Get the current provider state
+      const onboardState = web3OnboardComponent.state.get();
+      const [currentWallet] = onboardState.wallets;
+      if (currentWallet) {
+        await web3OnboardComponent
+          .disconnectWallet({ label: currentWallet.label })
+          .catch((error) => {
+            console.error('Failed to disconnect wallet:', error);
+          });
+      }
+    }
+  }, [useOnboard]);
 
   // Initialize the provider and listen for account/chain changes
   useEffect(() => {
@@ -185,6 +220,9 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
           accountData.account !== incomingAccount
         ) {
           disconnect();
+        } else {
+          // Update account data without disconnecting
+          updateAccountInfo({ account: incomingAccount, isVerified: false });
         }
       });
 
@@ -199,7 +237,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     } else {
       console.log('No wallet extension found');
     }
-  }, [accountData.account]);
+  }, [accountData.account, disconnect]);
 
   const updateAccountInfo = async (newData: AccountData) => {
     setAccountData(newData);
@@ -244,18 +282,6 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         console.log('User denied connection request');
       }
     }
-  };
-
-  /**
-   * Disconnect by clearing the account
-   * from local storage and state
-   */
-  const disconnect = () => {
-    localStorage.removeItem('accountData');
-    setAccountData({
-      account: null,
-      isVerified: false,
-    });
   };
 
   // Toggle function
