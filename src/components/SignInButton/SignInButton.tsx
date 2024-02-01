@@ -12,8 +12,6 @@ import signInWithEthereum from '@/utils/signInWithEthereum';
  * - useEthereum: sign and verify the message
  * - useNetwork: restrict button to supported networks
  * - useProfile: show profile name once signed in.
- *
- * @returns {JSX.Element} - A JSX structure of the button
  */
 const SignInButton: React.FC = () => {
   const { account, provider, isVerified, updateAccountInfo } = useEthereum();

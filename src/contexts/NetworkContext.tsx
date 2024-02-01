@@ -28,9 +28,7 @@ export function useNetwork() {
  * Provider component for the Network context, handling network support checks and
  * maintaining its state during network changes.
  *
- * @param {React.ReactNode} { children } - Child components using the Network context.
- * @returns {JSX.Element} - The JSX structure that wraps the child components to provide
- *                          access to it's state and functionalities.
+ * @param children - components using the Network context.
  */
 export function NetworkProvider({ children }: { children: React.ReactNode }) {
   // Gloabl provider object

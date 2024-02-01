@@ -6,8 +6,6 @@ import SignInButton from '@/components/SignInButton';
 
 /**
  * Displays the contents of the components page within the app.
- *
- * @returns {JSX.Element} - JSX structure of the components page
  */
 export default function Components() {
   return (

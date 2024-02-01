@@ -4,8 +4,6 @@ import MenuBar from '@/components/MenuBar';
 
 /**
  * Displays the contents of the landing page within the app.
- *
- * @returns {JSX.Element} - JSX structure of the landing page.
  */
 export default function Home() {
   return (

@@ -12,8 +12,6 @@ import styles from './ProfilePreview.module.css';
  * name, account address, description, and tags. The component
  * uses the useProfile and useEthereum hooks to fetch profile
  * and account data, respectively.
- *
- * @returns {JSX.Element} - JSX structure of a user profile card.
  */
 const ProfilePreview: React.FC = () => {
   const { profile } = useProfile();

@@ -10,8 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
  * Defines the basic layout for the application. It includes the
  * global font styling and a consistent layout for all pages.
  *
- * @param {React.ReactNode} { children } - The child components to be rendered.
- * @returns {JSX.Element} - The JSX structure including header and content.
+ * @param children - The pages to be rendered within the layout and header.
  */
 export default function RootLayout({
   children,

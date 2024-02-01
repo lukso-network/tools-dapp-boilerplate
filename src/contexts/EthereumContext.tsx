@@ -121,9 +121,7 @@ export function useEthereum() {
  * Provider component for the Ethereum context, handling account connectivity and
  * maintaining its state during account and chain changes.
  *
- * @param {React.ReactNode} { children } - Child components using the Ethereum context.
- * @returns {JSX.Element} - The JSX structure that wraps the child components to provide
- *                          access to it's state and functionalities.
+ * @param children - components using the Ethereum context.
  */
 
 export function EthereumProvider({ children }: { children: React.ReactNode }) {

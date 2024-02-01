@@ -11,8 +11,7 @@ import { ProfileProvider } from '@/contexts/ProfileContext';
  * The root component of this application. It wraps all pages
  * with the context providers and a consistent layout.
  *
- * @param {AppProps} { Component, pageProps } - Current page and its properties.
- * @returns {JSX.Element} - The JSX structure for the root of the application.
+ * @param { Component, pageProps } - Current page and its properties.
  */
 function LUKSOdAppBoilerplate({ Component, pageProps }: AppProps) {
   return (

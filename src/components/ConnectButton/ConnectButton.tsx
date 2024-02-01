@@ -4,8 +4,6 @@ import { useEthereum } from '@/contexts/EthereumContext';
  * Provides a button for connecting to and disconnecting from an
  * Ethereum-based blockchain. It leverages the useEthereum hook
  * from the EthereumContext for managing blockchain connections.
- *
- * @returns {JSX.Element} - A JSX structure of the button
  */
 const ConnectButton: React.FC = () => {
   const { connect, disconnect, account } = useEthereum();

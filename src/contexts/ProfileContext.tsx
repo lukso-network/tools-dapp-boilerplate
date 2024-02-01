@@ -55,9 +55,7 @@ export function useProfile() {
  * Provider component for the Profile context, handling property checks and
  * maintaining its state during account and chain changes.
  *
- * @param {React.ReactNode} { children } - Child components using the Profile context.
- * @returns {JSX.Element} - The JSX structure that wraps the child components to provide
- *                          access to it's state and functionalities.
+ * @param children - Child components using the Profile context.
  */
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
   // State for the Profile provider

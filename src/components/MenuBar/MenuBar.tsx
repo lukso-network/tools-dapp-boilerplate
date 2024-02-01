@@ -3,8 +3,6 @@ import Link from 'next/link';
 
 /**
  * Provides a top navigation bar including links to all pages.
- *
- * @returns {JSX.Element} - JSX structure of the navigation bar
  */
 const MenuBar: React.FC = () => {
   return (
