@@ -22,12 +22,12 @@ import { EIP_1271_MAGIC_VALUE } from '@/consts/constants';
 const signInWithEthereum = async ({
   account,
   provider,
-  updateAccountInfo,
+  updateVerification,
   chainId,
 }: {
   account: string | null;
   provider: ethers.BrowserProvider | null;
-  updateAccountInfo: (data: AccountData) => void;
+  updateVerification: (isVerified: boolean) => void;
   chainId: number;
 }) => {
   // SIWE requires an connected account of a supported network
@@ -75,10 +75,7 @@ const signInWithEthereum = async ({
     );
 
     // Update global account data
-    updateAccountInfo({
-      account: account,
-      isVerified: isValidSignature === EIP_1271_MAGIC_VALUE,
-    });
+    updateVerification(isValidSignature === EIP_1271_MAGIC_VALUE);
   } catch (error) {
     console.error('Error on signing message: ', error);
   }

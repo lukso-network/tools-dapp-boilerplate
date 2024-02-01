@@ -14,7 +14,7 @@ import signInWithEthereum from '@/utils/signInWithEthereum';
  * - useProfile: show profile name once signed in.
  */
 const SignInButton: React.FC = () => {
-  const { account, provider, isVerified, updateAccountInfo } = useEthereum();
+  const { account, provider, isVerified, updateVerification } = useEthereum();
   const { network } = useNetwork();
   const { profile } = useProfile();
 
@@ -43,7 +43,7 @@ const SignInButton: React.FC = () => {
       signInWithEthereum({
         account,
         provider,
-        updateAccountInfo,
+        updateVerification,
         chainId: Number(chainId),
       });
     }
