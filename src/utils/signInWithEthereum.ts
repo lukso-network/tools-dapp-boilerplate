@@ -1,8 +1,8 @@
-import { SiweMessage } from 'siwe'
-import { ethers } from 'ethers'
-import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json'
+import { SiweMessage } from 'siwe';
+import { ethers } from 'ethers';
+import UniversalProfileContract from '@lukso/lsp-smart-contracts/artifacts/UniversalProfile.json';
 
-import { EIP_1271_MAGIC_VALUE } from '@/consts/constants'
+import { EIP_1271_MAGIC_VALUE } from '@/consts/constants';
 
 /**
  * Performs sign in with Ethereum in with a wallet or Universal
@@ -25,15 +25,15 @@ const signInWithEthereum = async ({
   updateAccountInfo,
   chainId,
 }: {
-  account: string | null
-  provider: ethers.BrowserProvider | null
-  updateAccountInfo: (data: AccountData) => void
-  chainId: number
+  account: string | null;
+  provider: ethers.BrowserProvider | null;
+  updateAccountInfo: (data: AccountData) => void;
+  chainId: number;
 }) => {
   // SIWE requires an connected account of a supported network
   if (!account || !provider) {
-    console.log('No account connected')
-    return
+    console.log('No account connected');
+    return;
   }
 
   const siweMessage = new SiweMessage({
@@ -44,10 +44,10 @@ const signInWithEthereum = async ({
     version: '1',
     chainId: Number(chainId),
     resources: ['https://boilerplate.lukso.tech'],
-  })
+  });
 
-  const message = siweMessage.prepareMessage()
-  const hashedMessage = ethers.hashMessage(message)
+  const message = siweMessage.prepareMessage();
+  const hashedMessage = ethers.hashMessage(message);
 
   try {
     /**
@@ -58,30 +58,30 @@ const signInWithEthereum = async ({
      * wallets allowing for multiple connections, the current
      * account address is passed.
      */
-    const signer = await provider.getSigner(account)
+    const signer = await provider.getSigner(account);
 
-    const signature = await signer.signMessage(message)
+    const signature = await signer.signMessage(message);
 
     // Create the UniversalProfile contract instance
     const myUniversalProfileContract = new ethers.Contract(
       account,
       UniversalProfileContract.abi,
       provider
-    )
+    );
 
     const isValidSignature = await myUniversalProfileContract.isValidSignature(
       hashedMessage,
       signature
-    )
+    );
 
     // Update global account data
     updateAccountInfo({
       account: account,
       isVerified: isValidSignature === EIP_1271_MAGIC_VALUE,
-    })
+    });
   } catch (error) {
-    console.error('Error on signing message: ', error)
+    console.error('Error on signing message: ', error);
   }
-}
+};
 
-export default signInWithEthereum
+export default signInWithEthereum;

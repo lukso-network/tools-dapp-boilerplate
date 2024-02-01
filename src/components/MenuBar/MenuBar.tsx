@@ -1,10 +1,8 @@
-import Link from 'next/link'
-import React from 'react'
+import React from 'react';
+import Link from 'next/link';
 
 /**
  * Provides a top navigation bar including links to all pages.
- *
- * @returns {JSX.Element} - JSX structure of the navigation bar
  */
 const MenuBar: React.FC = () => {
   return (
@@ -44,7 +42,7 @@ const MenuBar: React.FC = () => {
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default MenuBar
+export default MenuBar;

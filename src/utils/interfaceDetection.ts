@@ -1,15 +1,16 @@
-import { ethers } from 'ethers'
-import erc165ABI from '../consts/ERC165ABI.json'
+import { ethers } from 'ethers';
+
+import erc165ABI from '@/consts/ERC165ABI.json';
 
 /*
  * Initialize base provider to get current blockchain network
  * The RPC URL can also be passed as string manually, see:
  * https://docs.lukso.tech/tools/erc725js/getting-started
  */
-const providerObject = window.lukso || window.ethereum
+const providerObject = window.lukso || window.ethereum;
 const provider = providerObject
   ? new ethers.BrowserProvider(providerObject)
-  : null
+  : null;
 
 /**
  * Checks if a smart contract has a certain ERC165 interface.
@@ -23,15 +24,15 @@ export async function supportsInterface(
   interfaceId: string
 ): Promise<boolean> {
   if (!provider) {
-    console.error('Provider not available.')
-    return false
+    console.error('Provider not available.');
+    return false;
   }
-  const contract = new ethers.Contract(contractAddress, erc165ABI, provider)
+  const contract = new ethers.Contract(contractAddress, erc165ABI, provider);
   try {
-    return await contract.supportsInterface(interfaceId)
+    return await contract.supportsInterface(interfaceId);
   } catch (error) {
-    console.error('Error checking interface support:', error)
-    return false
+    console.error('Error checking interface support:', error);
+    return false;
   }
 }
 

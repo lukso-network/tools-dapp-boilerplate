@@ -1,22 +1,22 @@
-import React from 'react'
-import Image from 'next/image'
-import { useProfile } from '../../contexts/ProfileContext'
-import { useEthereum } from '../../contexts/EthereumContext'
-import identicon from 'ethereum-blockies-base64'
-import styles from './ProfilePreview.module.css'
+import React from 'react';
+import Image from 'next/image';
+
+import identicon from 'ethereum-blockies-base64';
+
+import { useProfile } from '@/contexts/ProfileContext';
+import { useEthereum } from '@/contexts/EthereumContext';
+import styles from './ProfilePreview.module.css';
 
 /**
  * Displays the user's profile information including images,
  * name, account address, description, and tags. The component
  * uses the useProfile and useEthereum hooks to fetch profile
  * and account data, respectively.
- *
- * @returns {JSX.Element} - JSX structure of a user profile card.
  */
 const ProfilePreview: React.FC = () => {
-  const { profile } = useProfile()
-  const { account } = useEthereum()
-  const identiconUrl = account ? identicon(account) : ''
+  const { profile } = useProfile();
+  const { account } = useEthereum();
+  const identiconUrl = account ? identicon(account) : '';
 
   return (
     <div
@@ -98,7 +98,7 @@ const ProfilePreview: React.FC = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProfilePreview
+export default ProfilePreview;

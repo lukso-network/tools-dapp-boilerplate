@@ -10,4 +10,4 @@ export const config = {
     name: 'Universal Profiles',
     url: 'https://chrome.google.com/webstore/detail/universal-profiles/abpickdkkbnbcoepogfhkhennhfhehfn?hl=en',
   },
-}
+};

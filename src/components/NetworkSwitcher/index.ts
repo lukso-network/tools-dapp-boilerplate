@@ -1,1 +1,1 @@
-export { default } from './NetworkSwitcher'
+export { default } from './NetworkSwitcher';
