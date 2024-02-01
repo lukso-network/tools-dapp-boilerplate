@@ -18,7 +18,8 @@
     "ethers": "^6.8.1",
     "next": "14.1.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "siwe": "^2.1.4"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -109,8 +109,8 @@ export function NetworkProvider({ children }: { children: React.ReactNode }) {
         setNetwork(networkDetails.name);
       } catch (error) {
         if (error instanceof Error && 'code' in error) {
-          const switchError = error as { code: number };
-          // If network has not been added yet, set it up within the extension
+          const switchError = error as { code: number }
+          // If network has not been added yet, add it to the extension
           if (switchError.code === 4902) {
             try {
               await providerObject.request({
