@@ -30,7 +30,6 @@ export default function Home() {
                   <Image
                     src="/lukso_wordmark_black.svg"
                     alt="LUKSO Wordmark"
-                    className="dark:invert"
                     priority
                     fill
                     sizes="100vw"
