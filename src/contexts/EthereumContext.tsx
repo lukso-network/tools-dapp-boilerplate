@@ -86,7 +86,7 @@ const web3OnboardComponent: OnboardAPI = Onboard({
 interface EthereumContextType {
   provider: ethers.BrowserProvider | null;
   account: string | null;
-  updateAccountInfo: (newData: AccountData) => void;
+  updateVerification: (isVerified: boolean) => void;
   connect: () => Promise<void>;
   disconnect: () => void;
   useOnboard: boolean;
@@ -94,10 +94,16 @@ interface EthereumContextType {
   isVerified: boolean; // Check if user is signed in
 }
 
+// Ethereum Context properties
+interface AccountData {
+  account: string | null;
+  isVerified: boolean;
+}
+
 const defaultValue: EthereumContextType = {
   provider: null,
   account: null,
-  updateAccountInfo: () => {},
+  updateVerification: () => {},
   connect: async () => {},
   disconnect: async () => {},
   useOnboard: true,
@@ -203,6 +209,10 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateVerification = async (isVerified: boolean) => {
+    updateAccountInfo({ ...accountData, isVerified: isVerified });
+  };
+
   // Connect to the Ethereum network in the user's extension
   const connect = async () => {
     // If Web3-Onboard is enabled
@@ -258,7 +268,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       value={{
         provider,
         account: accountData.account,
-        updateAccountInfo,
+        updateVerification,
         connect,
         disconnect,
         useOnboard,
