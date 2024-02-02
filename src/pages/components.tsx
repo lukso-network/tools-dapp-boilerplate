@@ -1,5 +1,4 @@
 import ConnectButton from '@/components/ConnectButton';
-import MenuBar from '@/components/MenuBar';
 import NetworkSwitcher from '@/components/NetworkSwitcher/NetworkSwitcher';
 import ProfilePreview from '@/components/ProfilePreview';
 import SignInButton from '@/components/SignInButton';
@@ -10,7 +9,6 @@ import SignInButton from '@/components/SignInButton';
 export default function Components() {
   return (
     <>
-      <MenuBar />
       <div className="home-background">
         <div className="flex items-center justify-center main-content">
           <div>

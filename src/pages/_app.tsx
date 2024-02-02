@@ -6,6 +6,7 @@ import RootLayout from '@/app/layout';
 import { EthereumProvider } from '@/contexts/EthereumContext';
 import { NetworkProvider } from '@/contexts/NetworkContext';
 import { ProfileProvider } from '@/contexts/ProfileContext';
+import NavBar from '@/components/NavBar';
 
 /**
  * The root component of this application. It wraps all pages
@@ -19,6 +20,7 @@ function LUKSOdAppBoilerplate({ Component, pageProps }: AppProps) {
       <NetworkProvider>
         <ProfileProvider>
           <RootLayout>
+            <NavBar />
             <Component {...pageProps} />
           </RootLayout>
         </ProfileProvider>
