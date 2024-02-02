@@ -1,14 +1,11 @@
 import Image from 'next/image';
 
-import MenuBar from '@/components/MenuBar';
-
 /**
  * Displays the contents of the landing page within the app.
  */
 export default function Home() {
   return (
     <>
-      <MenuBar />
       <div className="home-background">
         <main className="flex flex-col items-center justify-between px-16 pb-4 pt-6">
           <div className="my-2 z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

@@ -1,12 +1,9 @@
-import MenuBar from '@/components/MenuBar';
-
 /**
  * Displays the contents of the contexts page within the app.
  */
 export default function Contexts() {
   return (
     <>
-      <MenuBar />
       <div className="home-background">
         <div className="flex flex-col items-center justify-center main-content">
           <h1 className="text-2xl">Built-in Context States:</h1>

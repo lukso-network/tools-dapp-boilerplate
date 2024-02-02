@@ -1,12 +1,9 @@
-import MenuBar from '@/components/MenuBar';
-
 /**
  * Displays the contents of the utility page within the app.
  */
 export default function Utility() {
   return (
     <>
-      <MenuBar />
       <div className="home-background">
         <div className="flex flex-col items-center justify-center main-content">
           <h1 className="text-2xl">Built-in Utility Tools:</h1>
