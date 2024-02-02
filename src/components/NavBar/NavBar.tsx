@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import ConnectButton from '@/components/ConnectButton';
+
+import ConnectButton from '../ConnectButton';
 
 /**
  * Provides a top navigation bar including links to all pages.
