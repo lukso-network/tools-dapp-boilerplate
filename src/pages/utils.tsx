@@ -29,6 +29,17 @@ export default function Utility() {
               interacting with.
             </div>
           </div>
+          <div className="rounded-lg border border-red-100 p-5 bg-pink-50 mt-4">
+            <h4 className="text-xl mb-2 font-bold">🔑 Sign In With Ethereum</h4>
+            <div className="mb-32 lg:mb-0 lg:max-w-2xl opacity-70 text-sm">
+              You can use the{' '}
+              <code className="font-bold">signInWithEthereum()</code> function
+              within{' '}
+              <code className="font-bold">src/utils/signInWithEthereum.ts</code>{' '}
+              to quickly prove ownership over the account that you are connected
+              with.
+            </div>
+          </div>
         </div>
       </div>
     </>
