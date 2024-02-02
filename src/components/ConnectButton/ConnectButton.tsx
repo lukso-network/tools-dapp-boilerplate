@@ -5,9 +5,14 @@ import { useEthereum } from '@/contexts/EthereumContext';
  * Ethereum-based blockchain. It leverages the useEthereum hook
  * from the EthereumContext for managing blockchain connections.
  */
-const ConnectButton: React.FC = () => {
-  const { connect, disconnect, account } = useEthereum();
 
+interface Props {
+  connectText: string;
+  disconnectText: string;
+}
+
+const ConnectButton: React.FC<Props> = ({ connectText, disconnectText }) => {
+  const { connect, disconnect, account } = useEthereum();
   return (
     <div>
       {!account ? (
@@ -15,14 +20,14 @@ const ConnectButton: React.FC = () => {
           className="m-2 bg-lukso-pink text-white font-bold py-2 px-4 rounded"
           onClick={connect}
         >
-          Connect Extension
+          {connectText}
         </button>
       ) : (
         <button
           className="m-2 bg-lukso-pink text-white font-bold py-2 px-4 rounded"
           onClick={disconnect}
         >
-          Disconnect
+          {disconnectText}
         </button>
       )}
     </div>

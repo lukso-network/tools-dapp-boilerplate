@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import ConnectButton from '../ConnectButton';
+import ConnectButton from '@/components/ConnectButton';
 
 /**
  * Provides a top navigation bar including links to all pages.
@@ -39,7 +39,7 @@ const NavBar: React.FC = () => {
             >
               Utility
             </Link>
-            <ConnectButton />
+            <ConnectButton connectText="Connect" disconnectText="Disconnect" />
           </div>
         </div>
       </div>
