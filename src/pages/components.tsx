@@ -15,10 +15,7 @@ export default function Components() {
             <div className="elementDescription">
               <label className="opacity-70">ConnectButton.tsx</label>
               <div className="elementBox">
-                <ConnectButton
-                  connectText="Connect Extension"
-                  disconnectText="Disconnect Extension"
-                />
+                <ConnectButton />
               </div>
             </div>
             <div className="elementDescription">

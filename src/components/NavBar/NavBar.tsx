@@ -40,7 +40,7 @@ const NavBar: React.FC = () => {
             >
               Utility
             </Link>
-            <ConnectButton connectText="Connect" disconnectText="Disconnect" />
+            <ConnectButton />
           </div>
         </div>
       </div>
