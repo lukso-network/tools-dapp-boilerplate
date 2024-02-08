@@ -29,9 +29,12 @@ const ProfilePreview: React.FC = () => {
             'https://api.universalprofile.cloud/ipfs/'
           )}
           alt="Background"
-          layout="fill"
-          objectFit="cover"
           className={`${styles.profileBackground} rounded-lg absolute inset-0 z-0`}
+          fill
+          sizes="(max-width: 432px) 100vw"
+          style={{
+            objectFit: 'cover',
+          }}
         /> // Background image
       )}
 
@@ -48,9 +51,13 @@ const ProfilePreview: React.FC = () => {
                 'https://api.universalprofile.cloud/ipfs/'
               )}
               alt="Profile"
-              layout="fill"
-              objectFit="cover"
               className="rounded-full"
+              fill
+              sizes="(max-width: 768px) 100vw"
+              priority={true}
+              style={{
+                objectFit: 'cover',
+              }}
             /> // Profile Image
           )}
         </div>
@@ -63,9 +70,12 @@ const ProfilePreview: React.FC = () => {
             <Image
               src={identiconUrl}
               alt="Blockie"
-              layout="fill"
-              objectFit="cover"
               className="rounded-full"
+              fill
+              sizes="100vw"
+              style={{
+                objectFit: 'cover',
+              }}
             /> // Identicon
           )}
         </div>

@@ -32,6 +32,7 @@ export default function Home() {
                     sizes="100vw"
                     style={{
                       objectFit: 'contain',
+                      maxWidth: '100%',
                     }}
                   />
                 </div>
@@ -50,6 +51,7 @@ export default function Home() {
                 sizes="100vw"
                 style={{
                   objectFit: 'contain',
+                  maxWidth: '100%',
                 }}
               />
             </div>
