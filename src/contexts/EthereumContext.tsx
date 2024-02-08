@@ -14,6 +14,7 @@ import luksoModule from '@lukso/web3-onboard-config';
 
 import supportedNetworks from '@/consts/SupportedNetworks.json';
 import { config } from '@/app/config';
+import { BrowserProvider } from 'ethers';
 
 // Web3-Onboard: LUKSO provider initialization
 const onboardLuksoProvider = luksoModule();
@@ -256,11 +257,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       const wallets = await web3OnboardComponent.connectWallet();
       if (wallets.length > 0) {
         const onboardProvider = new ethers.BrowserProvider(wallets[0].provider);
-        setProvider(onboardProvider);
-        updateAccountInfo({
-          account: wallets[0].accounts[0].address,
-          isVerified: false,
-        });
+        connectAccount(onboardProvider, wallets[0].accounts[0].address);
       }
     }
     // Regular Connection
@@ -276,12 +273,21 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         const plainProvider = new ethers.BrowserProvider(providerObject);
 
         try {
-          const accounts = await plainProvider.send('eth_requestAccounts', []);
-          setProvider(plainProvider);
-          updateAccountInfo({
-            account: accounts[0],
-            isVerified: false,
-          });
+          // Check if user has a previous connection
+          const accounts = await plainProvider.send('eth_accounts', []);
+          if (accounts.length > 0) {
+            // Accounts are available
+            connectAccount(plainProvider, accounts[0]);
+          } else {
+            // No connected accounts, request access
+            const requestedAccounts = await plainProvider.send(
+              'eth_requestAccounts',
+              []
+            );
+            if (requestedAccounts.length > 0) {
+              connectAccount(plainProvider, requestedAccounts[0]);
+            }
+          }
         } catch (error) {
           console.log('User denied connection request');
         }
@@ -290,6 +296,14 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         return;
       }
     }
+  };
+
+  const connectAccount = (provider: BrowserProvider, account: string) => {
+    setProvider(provider);
+    updateAccountInfo({
+      account: account,
+      isVerified: false,
+    });
   };
 
   // Toggle function
