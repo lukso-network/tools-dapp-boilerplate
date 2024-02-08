@@ -1,3 +1,4 @@
+import ProfilePreview from '@/components/ProfilePreview';
 import Image from 'next/image';
 
 /**
@@ -38,22 +39,10 @@ export default function Home() {
               </a>
             </div>
           </div>
-
-          <div>
-            <div className="h-44 w-60 relative my-20">
-              <Image
-                className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
-                src="/lyx_token_symbol.svg"
-                alt="LYX Token Symbol"
-                priority
-                fill
-                sizes="100vw"
-                style={{
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
+          <div className="my-10">
+            <ProfilePreview />
           </div>
+
           <div>
             <div className="rounded-lg border border-red-100 p-5 bg-pink-50 mt-2">
               <h2 className="text-2xl m-5">
