@@ -13,19 +13,19 @@ export default function Components() {
         <div className="flex items-center justify-center main-content">
           <div>
             <div className="elementDescription">
-              <label className="opacity-70">ConnectButton.tsx</label>
+              <div className="opacity-70">ConnectButton.tsx</div>
               <div className="elementBox">
                 <ConnectButton />
               </div>
             </div>
             <div className="elementDescription">
-              <label className="opacity-70">SignInButton.tsx</label>
+              <div className="opacity-70">SignInButton.tsx</div>
               <div className="elementBox">
                 <SignInButton />
               </div>
             </div>
             <div className="elementDescription">
-              <label className="opacity-70">NetworkSwitcher.tsx</label>
+              <div className="opacity-70">NetworkSwitcher.tsx</div>
               <div className="elementBox">
                 <NetworkSwitcher />
               </div>
@@ -33,7 +33,7 @@ export default function Components() {
           </div>
           <div>
             <div className="elementDescription">
-              <label className="opacity-70">ProfilePreview.tsx</label>
+              <div className="opacity-70">ProfilePreview.tsx</div>
               <div className="elementBox">
                 <ProfilePreview />
               </div>
