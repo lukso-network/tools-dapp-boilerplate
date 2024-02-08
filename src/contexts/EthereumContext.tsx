@@ -197,9 +197,6 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
     // Set global provider
     if (providerObject) {
-      const provider = new ethers.BrowserProvider(providerObject);
-      setProvider(provider);
-
       // Handle incoming address changes
       providerObject.on('accountsChanged', (accounts: string[]) => {
         if (accounts.length === 0) {
@@ -268,18 +265,29 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     }
     // Regular Connection
     else {
-      if (!provider) {
+      /*
+       * Check if the Universal Profile extension or regular
+       * wallet injected the related window object
+       */
+      const providerObject = window.lukso || window.ethereum;
+
+      // Set global provider
+      if (providerObject) {
+        const plainProvider = new ethers.BrowserProvider(providerObject);
+
+        try {
+          const accounts = await plainProvider.send('eth_requestAccounts', []);
+          setProvider(plainProvider);
+          updateAccountInfo({
+            account: accounts[0],
+            isVerified: false,
+          });
+        } catch (error) {
+          console.log('User denied connection request');
+        }
+      } else {
         console.log('Provider is not set');
         return;
-      }
-      try {
-        const accounts = await provider.send('eth_requestAccounts', []);
-        updateAccountInfo({
-          account: accounts[0],
-          isVerified: false,
-        });
-      } catch (error) {
-        console.log('User denied connection request');
       }
     }
   };
