@@ -101,7 +101,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
           setProfile(profileMetaData.value.LSP3Profile);
         }
       } catch (error) {
-        console.error('Error fetching profile data:', error);
+        console.log('Can not fetch profile data: ', error);
       }
     };
 

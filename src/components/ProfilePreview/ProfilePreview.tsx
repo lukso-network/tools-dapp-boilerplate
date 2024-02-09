@@ -38,7 +38,7 @@ const ProfilePreview: React.FC = () => {
         /> // Background image
       )}
 
-      <div className="flex justify-center relative z-10">
+      <div className="flex justify-center relative">
         <div
           className={`${styles.profileImage} w-24 h-24 bg-gray-200 rounded-full overflow-hidden relative border-4 border-white`}
         >
@@ -64,7 +64,9 @@ const ProfilePreview: React.FC = () => {
         <div
           className={`${styles.blockie} absolute mb-6 mr-6 bg-gray-200 rounded-full overflow-hidden border-4 border-white`}
         >
-          {!profile?.profileImage || profile.profileImage.length === 0 ? (
+          {!profile?.profileImage ||
+          profile.profileImage.length === 0 ||
+          !identiconUrl ? (
             <div className="w-full h-full bg-gray-300 rounded-full"></div> // Show grey background if there is no image
           ) : (
             <Image
@@ -82,7 +84,7 @@ const ProfilePreview: React.FC = () => {
       </div>
 
       <div
-        className={`${styles.profileData} text-center mt-4 bg-white p-2 rounded-lg relative z-10`}
+        className={`${styles.profileData} text-center mt-4 bg-white p-2 rounded-lg relative`}
       >
         <p className="text-lg font-semibold">{profile?.name || 'Anonymous'}</p>
         <p className="text-sm text-gray-600">{account || '0x'}</p>

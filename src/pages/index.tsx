@@ -1,3 +1,4 @@
+import ProfilePreview from '@/components/ProfilePreview';
 import Image from 'next/image';
 
 /**
@@ -8,8 +9,8 @@ export default function Home() {
     <>
       <div className="home-background">
         <main className="flex flex-col items-center justify-between px-16 pb-4 pt-6">
-          <div className="my-2 z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-            <p className="fixed left-0 top-0 flex w-full justify-center lg:static lg:w-auto  lg:rounded-xl lg:p-4 lg:border border-red-100 bg-pink-50 font-mono">
+          <div className="my-2 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+            <p className="fixed left-0 top-0 flex w-full justify-center lg:static lg:w-auto  lg:rounded-xl lg:p-4 lg:border border-red-100 bg-pink-50 font-mono -z-50">
               Start 🆙 your development by editing&nbsp;
               <code className="font-mono font-bold">
                 src/app/pages/index.tsx
@@ -39,22 +40,8 @@ export default function Home() {
               </a>
             </div>
           </div>
-
-          <div>
-            <div className="h-44 w-60 relative my-20">
-              <Image
-                className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
-                src="/lyx_token_symbol.svg"
-                alt="LYX Token Symbol"
-                priority
-                fill
-                sizes="100vw"
-                style={{
-                  objectFit: 'contain',
-                  maxWidth: '100%',
-                }}
-              />
-            </div>
+          <div className="my-10">
+            <ProfilePreview />
           </div>
           <div>
             <div className="rounded-lg border border-red-100 p-5 bg-pink-50 mt-2">
@@ -134,7 +121,7 @@ export default function Home() {
             </div>
 
             <div className="rounded-lg border border-red-100 p-5 bg-pink-50 mt-4 text-center">
-              This Application Framework was created using Next for React. Visit
+              This application framework was created using Next for React. Visit
               the{' '}
               <a
                 href="https://docs.lukso.tech/learn/dapp-developer/getting-started"
@@ -145,7 +132,22 @@ export default function Home() {
                 {' '}
                 Developer Documentation{' '}
               </a>
-              for further information.
+              or fork its code on
+              <a
+                href="https://github.com/lukso-network/lukso-playground"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-700"
+              >
+                {' '}
+                GitHub.
+              </a>
+              <a
+                href="https://docs.lukso.tech/learn/dapp-developer/getting-started"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-700"
+              ></a>
             </div>
           </div>
         </main>

@@ -1,10 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
-import { Inter } from 'next/font/google';
 
 import { config } from '@/app/config';
-
-const inter = Inter({ subsets: ['latin'] });
 
 /**
  * Defines the basic layout for the application. It includes the
@@ -24,7 +21,7 @@ export default function RootLayout({
         <meta name="description" content={config.metadata.description} />
         <link rel="icon" href="/images/favicon.ico" sizes="any" />
       </Head>
-      <div className={inter.className}>{children}</div>
+      <div>{children}</div>
     </div>
   );
 }

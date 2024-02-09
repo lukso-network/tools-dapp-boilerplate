@@ -14,6 +14,7 @@ import luksoModule from '@lukso/web3-onboard-config';
 
 import supportedNetworks from '@/consts/SupportedNetworks.json';
 import { config } from '@/app/config';
+import { BrowserProvider } from 'ethers';
 
 // Web3-Onboard: LUKSO provider initialization
 const onboardLuksoProvider = luksoModule();
@@ -197,9 +198,6 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
     // Set global provider
     if (providerObject) {
-      const provider = new ethers.BrowserProvider(providerObject);
-      setProvider(provider);
-
       // Handle incoming address changes
       providerObject.on('accountsChanged', (accounts: string[]) => {
         if (accounts.length === 0) {
@@ -234,6 +232,24 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       providerObject.on('chainChanged', () => {
         disconnect();
       });
+
+      if (useOnboard) {
+        // Check for Web3-Onboard changes
+        const subscription = web3OnboardComponent.state
+          .select('wallets')
+          .subscribe({
+            next(wallets) {
+              if (wallets.length === 0) {
+                // If all Web3-Onboard wallets have been disconnected
+                disconnect();
+              }
+            },
+          });
+
+        return () => {
+          subscription.unsubscribe();
+        };
+      }
     } else {
       console.log('No wallet extension found');
     }
@@ -259,29 +275,53 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       const wallets = await web3OnboardComponent.connectWallet();
       if (wallets.length > 0) {
         const onboardProvider = new ethers.BrowserProvider(wallets[0].provider);
-        setProvider(onboardProvider);
-        updateAccountInfo({
-          account: wallets[0].accounts[0].address,
-          isVerified: false,
-        });
+        connectAccount(onboardProvider, wallets[0].accounts[0].address);
       }
     }
     // Regular Connection
     else {
-      if (!provider) {
+      /*
+       * Check if the Universal Profile extension or regular
+       * wallet injected the related window object
+       */
+      const providerObject = window.lukso || window.ethereum;
+
+      // Set global provider
+      if (providerObject) {
+        const plainProvider = new ethers.BrowserProvider(providerObject);
+
+        try {
+          // Check if user has a previous connection
+          const accounts = await plainProvider.send('eth_accounts', []);
+          if (accounts.length > 0) {
+            // Accounts are available
+            connectAccount(plainProvider, accounts[0]);
+          } else {
+            // No connected accounts, request access
+            const requestedAccounts = await plainProvider.send(
+              'eth_requestAccounts',
+              []
+            );
+            if (requestedAccounts.length > 0) {
+              connectAccount(plainProvider, requestedAccounts[0]);
+            }
+          }
+        } catch (error) {
+          console.log('User denied connection request');
+        }
+      } else {
         console.log('Provider is not set');
         return;
       }
-      try {
-        const accounts = await provider.send('eth_requestAccounts', []);
-        updateAccountInfo({
-          account: accounts[0],
-          isVerified: false,
-        });
-      } catch (error) {
-        console.log('User denied connection request');
-      }
     }
+  };
+
+  const connectAccount = (provider: BrowserProvider, account: string) => {
+    setProvider(provider);
+    updateAccountInfo({
+      account: account,
+      isVerified: false,
+    });
   };
 
   // Toggle function
