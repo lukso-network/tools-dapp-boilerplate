@@ -33,6 +33,7 @@ export default function Home() {
                     sizes="100vw"
                     style={{
                       objectFit: 'contain',
+                      maxWidth: '100%',
                     }}
                   />
                 </div>
@@ -42,7 +43,6 @@ export default function Home() {
           <div className="my-10">
             <ProfilePreview />
           </div>
-
           <div>
             <div className="rounded-lg border border-red-100 p-5 bg-pink-50 mt-2">
               <h2 className="text-2xl m-5">
