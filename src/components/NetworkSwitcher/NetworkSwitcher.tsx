@@ -26,6 +26,7 @@ const NetworkSwitcher: React.FC = () => {
 
   return (
     <select
+      name="network"
       value={network ?? ''}
       onChange={handleNetworkChange}
       className="m-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none"
