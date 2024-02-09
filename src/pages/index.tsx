@@ -8,8 +8,8 @@ export default function Home() {
     <>
       <div className="home-background">
         <main className="flex flex-col items-center justify-between px-16 pb-4 pt-6">
-          <div className="my-2 z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-            <p className="fixed left-0 top-0 flex w-full justify-center lg:static lg:w-auto  lg:rounded-xl lg:p-4 lg:border border-red-100 bg-pink-50 font-mono">
+          <div className="my-2 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+            <p className="fixed left-0 top-0 flex w-full justify-center lg:static lg:w-auto  lg:rounded-xl lg:p-4 lg:border border-red-100 bg-pink-50 font-mono -z-50">
               Start 🆙 your development by editing&nbsp;
               <code className="font-mono font-bold">
                 src/app/pages/index.tsx
