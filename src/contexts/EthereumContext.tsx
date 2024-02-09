@@ -232,6 +232,24 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       providerObject.on('chainChanged', () => {
         disconnect();
       });
+
+      if (useOnboard) {
+        // Check for Web3-Onboard changes
+        const subscription = web3OnboardComponent.state
+          .select('wallets')
+          .subscribe({
+            next(wallets) {
+              if (wallets.length === 0) {
+                // If all Web3-Onboard wallets have been disconnected
+                disconnect();
+              }
+            },
+          });
+
+        return () => {
+          subscription.unsubscribe();
+        };
+      }
     } else {
       console.log('No wallet extension found');
     }
