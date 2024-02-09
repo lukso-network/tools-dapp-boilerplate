@@ -132,7 +132,7 @@ export default function Home() {
             </div>
 
             <div className="rounded-lg border border-red-100 p-5 bg-pink-50 mt-4 text-center">
-              This Application Framework was created using Next for React. Visit
+              This application framework was created using Next for React. Visit
               the{' '}
               <a
                 href="https://docs.lukso.tech/learn/dapp-developer/getting-started"
@@ -143,7 +143,22 @@ export default function Home() {
                 {' '}
                 Developer Documentation{' '}
               </a>
-              for further information.
+              or fork its code on
+              <a
+                href="https://github.com/lukso-network/lukso-playground"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-700"
+              >
+                {' '}
+                GitHub.
+              </a>
+              <a
+                href="https://docs.lukso.tech/learn/dapp-developer/getting-started"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-700"
+              ></a>
             </div>
           </div>
         </main>
