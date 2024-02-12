@@ -29,7 +29,7 @@ const ProfilePreview: React.FC = () => {
             'https://api.universalprofile.cloud/ipfs/'
           )}
           alt="Background"
-          className={`${styles.profileBackground} rounded-lg absolute inset-0 z-0`}
+          className={`${styles.profileBackground} rounded-lg absolute inset-0`}
           fill
           sizes="(max-width: 432px) 100vw"
           style={{
@@ -62,7 +62,7 @@ const ProfilePreview: React.FC = () => {
           )}
         </div>
         <div
-          className={`${styles.blockie} absolute mb-6 mr-6 bg-gray-200 rounded-full overflow-hidden border-4 border-white`}
+          className={`${styles.blockie} mb-6 mr-6 bg-gray-200 rounded-full overflow-hidden border-4 border-white`}
         >
           {!profile?.profileImage ||
           profile.profileImage.length === 0 ||

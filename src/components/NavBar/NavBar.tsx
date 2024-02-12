@@ -8,7 +8,7 @@ import ConnectButton from '../ConnectButton';
  */
 const NavBar: React.FC = () => {
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className="bg-white shadow-lg sticky top-0">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between">
           <div className="flex space-x-4">
