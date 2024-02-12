@@ -253,7 +253,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     } else {
       console.log('No wallet extension found');
     }
-  }, [accountData.account, disconnect]);
+  }, [accountData.account, disconnect, useOnboard]);
 
   const updateAccountInfo = async (newData: AccountData) => {
     setAccountData(newData);
