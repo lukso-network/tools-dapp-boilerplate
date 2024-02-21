@@ -134,7 +134,7 @@ export default function Home() {
               </a>
               or fork its code on
               <a
-                href="https://github.com/lukso-network/lukso-playground"
+                href="https://github.com/lukso-network/tools-dapp-boilerplate"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 hover:text-blue-700"
