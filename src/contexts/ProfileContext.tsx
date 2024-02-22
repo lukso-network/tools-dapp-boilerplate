@@ -31,10 +31,12 @@ interface Image {
 
 interface ProfileContextType {
   profile: Profile | null;
+  setProfile: React.Dispatch<React.SetStateAction<Profile | null>>;
 }
 
 const initialProfileContextValue: ProfileContextType = {
   profile: null,
+  setProfile: () => {},
 };
 
 // Set up the empty React context
@@ -61,9 +63,35 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   // State for the Profile provider
   const { account } = useEthereum();
   const { network } = useNetwork();
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
 
-  // Initialize the profile state and listen for account/chain changes
+  // Load profile from local storage on initial render
+  useEffect(() => {
+    const loadProfileFromLocalStorage = () => {
+      const storedProfileData = localStorage.getItem('profileData');
+      return storedProfileData ? JSON.parse(storedProfileData) : null;
+    };
+
+    const storedProfile = loadProfileFromLocalStorage();
+    if (storedProfile && storedProfile.account === account) {
+      setProfile(storedProfile.data);
+    } else {
+      // Reset profile if account has changed
+      setProfile(null);
+    }
+  }, [account]);
+
+  // Save profile to local storage whenever it changes
+  useEffect(() => {
+    if (profile) {
+      localStorage.setItem(
+        'profileData',
+        JSON.stringify({ account, data: profile })
+      );
+    }
+  }, [profile, account]);
+
+  // Fetch and update profile data from blockchain
   useEffect(() => {
     const fetchProfileData = async () => {
       if (!account || !network) {
@@ -109,7 +137,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   }, [account, network]);
 
   return (
-    <ProfileContext.Provider value={{ profile }}>
+    <ProfileContext.Provider value={{ profile, setProfile }}>
       {children}
     </ProfileContext.Provider>
   );
