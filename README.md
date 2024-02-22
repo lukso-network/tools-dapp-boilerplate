@@ -52,6 +52,6 @@ npm run dev
 - [LUKSO Documentation](https://docs.lukso.tech/)
 - [Next.js Documentation](https://nextjs.org/docs)
 
-### Community content
+### Community Content
 
 - [Speedrun the lukso-network/tools-dapp-boilerplate nextjs starter - YouTube](https://www.youtube.com/watch?v=OxJi7O7ts0Q) by tantodefi
