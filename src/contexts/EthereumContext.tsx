@@ -150,6 +150,17 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
   // Adjust this state value to disable Web3-Onboard
   const [useOnboard, setUseOnboard] = useState(true);
 
+  const connectAccount = useCallback(
+    (provider: ethers.BrowserProvider, account: string) => {
+      setProvider(provider);
+      updateAccountInfo({
+        account: account,
+        isVerified: false,
+      });
+    },
+    []
+  );
+
   /**
    * Disconnect by clearing the account
    * from local storage and state
@@ -179,6 +190,74 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     }
   }, [useOnboard]);
 
+  // Connect to the Ethereum network in the user's extension
+  const connect = useCallback(async () => {
+    // If Web3-Onboard is enabled
+    if (useOnboard) {
+      const previouslySelectedWallets =
+        web3OnboardComponent.state.get().wallets;
+      if (previouslySelectedWallets.length > 0) {
+        // There's a previously connected wallet, restore the connection
+        const onboardProvider = new ethers.BrowserProvider(
+          previouslySelectedWallets[0].provider
+        );
+        connectAccount(
+          onboardProvider,
+          previouslySelectedWallets[0].accounts[0].address
+        );
+      } else {
+        // No previously connected wallet, proceed with connection logic
+        const wallets = await web3OnboardComponent.connectWallet();
+        // If access was granted
+        if (wallets.length > 0) {
+          const onboardProvider = new ethers.BrowserProvider(
+            wallets[0].provider
+          );
+          connectAccount(onboardProvider, wallets[0].accounts[0].address);
+        } else {
+          // Remove locally stored account
+          disconnect();
+        }
+      }
+    }
+    // Regular Connection
+    else {
+      /*
+       * Check if the Universal Profile extension or regular
+       * wallet injected the related window object
+       */
+      const providerObject = window.lukso || window.ethereum;
+
+      // Set global provider
+      if (providerObject) {
+        const plainProvider = new ethers.BrowserProvider(providerObject);
+
+        try {
+          // Check if user has a previous connection
+          const accounts = await plainProvider.send('eth_accounts', []);
+          if (accounts.length > 0) {
+            // Accounts are available
+            connectAccount(plainProvider, accounts[0]);
+          } else {
+            // No connected accounts, request access
+            const requestedAccounts = await plainProvider.send(
+              'eth_requestAccounts',
+              []
+            );
+            if (requestedAccounts.length > 0) {
+              connectAccount(plainProvider, requestedAccounts[0]);
+            }
+          }
+        } catch (error) {
+          console.log('User denied connection request');
+        }
+      } else {
+        console.log('Provider is not set');
+        return;
+      }
+    }
+  }, [connectAccount, disconnect, useOnboard]);
+
   // Initialize the provider and listen for account/chain changes
   useEffect(() => {
     // Load user data from localStorage if available
@@ -187,7 +266,8 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         ? localStorage.getItem('accountData')
         : null;
     if (storedAccountData) {
-      setAccountData(JSON.parse(storedAccountData));
+      // If previous connection was found, try to re-connect
+      connect();
     }
 
     /*
@@ -253,7 +333,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     } else {
       console.log('No wallet extension found');
     }
-  }, [accountData.account, disconnect, useOnboard]);
+  }, [accountData.account, connect, disconnect, useOnboard]);
 
   const updateAccountInfo = async (newData: AccountData) => {
     setAccountData(newData);
@@ -265,63 +345,6 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
   const updateVerification = async (isVerified: boolean) => {
     updateAccountInfo({ ...accountData, isVerified: isVerified });
-  };
-
-  // Connect to the Ethereum network in the user's extension
-  const connect = async () => {
-    // If Web3-Onboard is enabled
-    if (useOnboard) {
-      // Connection logic using web3-onboard
-      const wallets = await web3OnboardComponent.connectWallet();
-      if (wallets.length > 0) {
-        const onboardProvider = new ethers.BrowserProvider(wallets[0].provider);
-        connectAccount(onboardProvider, wallets[0].accounts[0].address);
-      }
-    }
-    // Regular Connection
-    else {
-      /*
-       * Check if the Universal Profile extension or regular
-       * wallet injected the related window object
-       */
-      const providerObject = window.lukso || window.ethereum;
-
-      // Set global provider
-      if (providerObject) {
-        const plainProvider = new ethers.BrowserProvider(providerObject);
-
-        try {
-          // Check if user has a previous connection
-          const accounts = await plainProvider.send('eth_accounts', []);
-          if (accounts.length > 0) {
-            // Accounts are available
-            connectAccount(plainProvider, accounts[0]);
-          } else {
-            // No connected accounts, request access
-            const requestedAccounts = await plainProvider.send(
-              'eth_requestAccounts',
-              []
-            );
-            if (requestedAccounts.length > 0) {
-              connectAccount(plainProvider, requestedAccounts[0]);
-            }
-          }
-        } catch (error) {
-          console.log('User denied connection request');
-        }
-      } else {
-        console.log('Provider is not set');
-        return;
-      }
-    }
-  };
-
-  const connectAccount = (provider: BrowserProvider, account: string) => {
-    setProvider(provider);
-    updateAccountInfo({
-      account: account,
-      isVerified: false,
-    });
   };
 
   // Toggle function

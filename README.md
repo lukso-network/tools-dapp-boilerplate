@@ -17,6 +17,8 @@ More information is available on our 👉 [technical documentation](https://docs
 - Built-in [`ethers.js`](https://docs.ethers.org/), [`erc725.js`](https://docs.lukso.tech/tools/erc725js/getting-started), [`lsp-smart-contracts`](https://docs.lukso.tech/tools/lsp-smart-contracts/getting-started)
 - Uses `Tailwind`, `Prettier`, `TypeScript`
 
+> **INFO**: You can switch between a regular provider and [Web3-Onboard](https://onboard.blocknative.com/) by setting the `useOnboard` variable within the [EthereumContext](/src/contexts/EthereumContext.tsx).
+
 ## Development
 
 Clone the repository:
