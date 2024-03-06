@@ -1,6 +1,7 @@
 import ConnectButton from '@/components/ConnectButton';
 import NetworkSwitcher from '@/components/NetworkSwitcher/NetworkSwitcher';
 import ProfilePreview from '@/components/ProfilePreview';
+import AssetRegistration from '@/components/AssetRegistration';
 import SignInButton from '@/components/SignInButton';
 
 /**
@@ -36,6 +37,12 @@ export default function Components() {
               <div className="opacity-70">ProfilePreview.tsx</div>
               <div className="elementBox">
                 <ProfilePreview />
+              </div>
+            </div>
+            <div className="elementDescription">
+              <div className="opacity-70">AssetRegistration.tsx</div>
+              <div className="elementBox">
+                <AssetRegistration />
               </div>
             </div>
           </div>

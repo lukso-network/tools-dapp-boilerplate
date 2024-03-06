@@ -51,12 +51,14 @@ const AssetRegistration: React.FC = () => {
   useEffect(() => {
     // Filter out assets that are already registered
     const currentAssetAddresses = issuedAssets || [];
-    const filteredAssets = currentAssetAddresses.filter(
-      (asset: string) => !allAssets.includes(asset)
-    );
-    setAllAsset([...filteredAssets, ...allAssets]);
+    setAllAsset((allAssets) => {
+      const filteredAssets = currentAssetAddresses.filter(
+        (asset: string) => !allAssets.includes(asset)
+      );
+      return [...filteredAssets, ...allAssets];
+    });
   }, [issuedAssets]);
-
+  console.log('allAssets', allAssets);
   const registerAssets = async () => {
     if (!account) {
       console.error('Please connect wallet.');
@@ -142,7 +144,7 @@ const AssetRegistration: React.FC = () => {
   const { processing, receipt } = transaction;
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
+    <div className="max-w-[432px] flex flex-col justify-center items-center">
       <div className="flex flex-col">
         {allAssets.map((asset) => (
           <div key={asset}>{asset}</div>
@@ -150,7 +152,7 @@ const AssetRegistration: React.FC = () => {
       </div>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
-          className="w-[450px] m-2 bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded"
+          className="w-[420px] bg-gray-200 text-gray-700 font-bold my-2 p-2 rounded"
           type="text"
           id="asset"
           name="asset"
@@ -183,8 +185,8 @@ const AssetRegistration: React.FC = () => {
         </div>
       </form>
       {receipt && (
-        <div>
-          <p>Receipt: {receipt}</p>
+        <div className="w-full min-w-0">
+          <p className="whitespace-normal break-words">Receipt: {receipt}</p>
         </div>
       )}
       {processing && <p>{'Processing . . .'}</p>}
