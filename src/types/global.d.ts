@@ -5,3 +5,4 @@ interface Window {
   ethereum: any;
   lukso: any;
 }
+declare module '@lukso/lsp-smart-contracts/dist/constants.cjs.js';

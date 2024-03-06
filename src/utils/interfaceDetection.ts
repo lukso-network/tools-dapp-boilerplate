@@ -1,3 +1,4 @@
+'use client';
 import { ethers } from 'ethers';
 
 import erc165ABI from '@/consts/ERC165ABI.json';
@@ -7,7 +8,8 @@ import erc165ABI from '@/consts/ERC165ABI.json';
  * The RPC URL can also be passed as string manually, see:
  * https://docs.lukso.tech/tools/erc725js/getting-started
  */
-const providerObject = window.lukso || window.ethereum;
+const providerObject =
+  typeof window !== 'undefined' && (window.lukso || window.ethereum);
 const provider = providerObject
   ? new ethers.BrowserProvider(providerObject)
   : null;
