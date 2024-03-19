@@ -4,6 +4,7 @@
     "chainId": "42",
     "rpcUrl": "https://rpc.lukso.gateway.fm",
     "ipfsGateway": "https://api.universalprofile.cloud/ipfs",
+    "explorer": "https://explorer.execution.mainnet.lukso.network/",
     "token": "LYX"
   },
   {
@@ -11,6 +12,7 @@
     "chainId": "4201",
     "rpcUrl": "https://rpc.testnet.lukso.gateway.fm",
     "ipfsGateway": "https://api.universalprofile.cloud/ipfs",
+    "explorer": "https://explorer.execution.testnet.lukso.network/",
     "token": "LYXt"
   }
 ]
