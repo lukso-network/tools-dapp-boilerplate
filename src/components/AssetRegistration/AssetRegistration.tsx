@@ -15,21 +15,20 @@ import { INTERFACE_IDS } from '@lukso/lsp-smart-contracts/dist/constants.cjs.js'
 import { useEffect, useState } from 'react';
 
 /**
- * Allows a user to register assets to their Universal Profile. It uses the useEthereum
- * and useNetwork hooks to fetch account and network data, and the useProfile hook to
- * fetch the user's issued assets.
+ * Allows users to register assets to their Universal Profile using the LSP12 Issued Assets standard.
+ * LSP12 provides a standardized way to keep track of assets issued by a smart contract,
+ * addressing the challenge of verifying asset authenticity.
  *
- * The component maintains state for the new asset being registered, all assets, and
- * the current transaction. It provides an input for the user to enter an asset address,
- * and buttons to add the asset to the list and to register all assets.
+ * LSP12IssuedAssets standardizes metadata keys in ERC725Y smart contracts,
+ * enabling the recording of issued assets' addresses and associated interface IDs.
  *
- * The "Set LSP12IssuedAssets" button creates an instance of the ERC725 contract and
- * encodes the transaction data. It then calls the setDataBatch method on the Universal
- * Profile contract to register the assets.
+ * This component facilitates asset registration by fetching account and network data
+ * and managing state for new assets, ongoing transactions, and asset lists.
  *
- * The component displays a list of all assets, and if a transaction is in progress,
- * it displays a processing message. If a transaction receipt is available, it displays
- * the receipt.
+ * It integrates with the Universal Profile contract, leveraging ERC725 and ERC165 interfaces
+ * to encode transaction data and register assets securely.
+ *
+ * Docs: https://docs.lukso.tech/standards/universal-profile/lsp12-issued-assets/
  */
 
 const AssetRegistration: React.FC = () => {
