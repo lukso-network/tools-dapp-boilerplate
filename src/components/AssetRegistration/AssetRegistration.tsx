@@ -37,6 +37,7 @@ const AssetRegistration: React.FC = () => {
   const { network } = useNetwork();
   const { issuedAssets } = useProfile();
   const [newAsset, setNewAsset] = useState<string>('');
+  const [issuedAssetsUpdated, setIssuedAssetsUpdated] = useState(false);
   const [allAssets, setAllAssets] = useState<string[]>([]);
   const [transaction, setTransaction] = useState({
     processing: false,
@@ -45,15 +46,28 @@ const AssetRegistration: React.FC = () => {
   });
 
   useEffect(() => {
-    // Filter out assets that are already registered
+    // Get issuedAssets and check for duplicates
     const currentAssetAddresses = issuedAssets || [];
-    setAllAssets((allAssets) => {
-      const filteredAssets = currentAssetAddresses.filter(
-        (asset: string) => !allAssets.includes(asset)
-      );
-      return [...filteredAssets, ...allAssets];
-    });
+    const uniqueAssets = Array.from(new Set(currentAssetAddresses));
+    setAllAssets(uniqueAssets);
   }, [issuedAssets]);
+
+  // check if the asset is LSP7 or LSP8
+  const checkStandard = async (asset: string) => {
+    const isLSP7 = await supportsInterface(
+      asset,
+      INTERFACE_IDS.LSP7DigitalAsset
+    );
+    const isLSP8 = await supportsInterface(
+      asset,
+      INTERFACE_IDS.LSP8IdentifiableDigitalAsset
+    );
+    return isLSP7
+      ? INTERFACE_IDS.LSP7DigitalAsset
+      : isLSP8
+        ? INTERFACE_IDS.LSP8IdentifiableDigitalAsset
+        : false;
+  };
 
   const registerAssets = async () => {
     if (!account) {
@@ -72,23 +86,6 @@ const AssetRegistration: React.FC = () => {
       currentNetwork?.rpcUrl,
       { ipfsGateway: currentNetwork?.ipfsGateway }
     );
-
-    // check if the asset is LSP7 or LSP8
-    const checkStandard = async (asset: string) => {
-      const isLSP7 = await supportsInterface(
-        asset,
-        INTERFACE_IDS.LSP7DigitalAsset
-      );
-      const isLSP8 = await supportsInterface(
-        asset,
-        INTERFACE_IDS.LSP8IdentifiableDigitalAsset
-      );
-      return isLSP7
-        ? INTERFACE_IDS.LSP7DigitalAsset
-        : isLSP8
-          ? INTERFACE_IDS.LSP8IdentifiableDigitalAsset
-          : false;
-    };
 
     // encode transaction data
     const issuedAssetMap: {
@@ -137,11 +134,31 @@ const AssetRegistration: React.FC = () => {
           receipt: tx.hash,
           receiptLink: explorerLink,
         });
+        setIssuedAssetsUpdated(false);
       })
       .catch((error: any) => {
         setTransaction({ ...transaction, processing: false });
         console.error(error);
       });
+  };
+
+  const handleAddAsset = async () => {
+    if (!allAssets.includes(newAsset.trim())) {
+      // Check if the asset already exists in the array to prevent duplicates
+      const assetStandard = await checkStandard(newAsset.trim());
+      // Check if the input is an address of LSP7 or LSP8
+      if (!!assetStandard) {
+        setTransaction({ ...transaction, receipt: null });
+        setAllAssets([...allAssets, newAsset.trim()]);
+        setNewAsset('');
+        setIssuedAssetsUpdated(true);
+      } else {
+        console.log('Only LSP7 or LSP8 assets can be added.');
+      }
+    } else {
+      console.log('Asset already exists.');
+    }
+    setNewAsset('');
   };
 
   const { processing, receipt, receiptLink } = transaction;
@@ -166,7 +183,7 @@ const AssetRegistration: React.FC = () => {
         <div className="flex justify-center items-center">
           <button
             className={
-              !allAssets.length
+              !allAssets.length || !issuedAssetsUpdated
                 ? 'm-2 bg-gray-300 text-gray-400 font-bold py-2 px-4 rounded cursor-not-allowed'
                 : 'm-2 bg-lukso-pink text-white font-bold py-2 px-4 rounded'
             }
@@ -178,10 +195,7 @@ const AssetRegistration: React.FC = () => {
           </button>
           <button
             className="m-2 bg-lukso-pink text-white font-bold py-2 px-4 rounded"
-            onClick={() => {
-              setAllAssets([...allAssets, newAsset]);
-              setNewAsset('');
-            }}
+            onClick={handleAddAsset}
           >
             Add
           </button>
