@@ -182,12 +182,12 @@ const AssetRegistration: React.FC = () => {
         <div className="flex justify-center items-center">
           <button
             className={
-              !allAssets.length || !issuedAssetsUpdated
+              !issuedAssetsUpdated
                 ? 'm-2 bg-gray-300 text-gray-400 font-bold py-2 px-4 rounded cursor-not-allowed'
                 : 'm-2 bg-lukso-pink text-white font-bold py-2 px-4 rounded'
             }
             onClick={() => {
-              registerAssets();
+              if (issuedAssetsUpdated) registerAssets();
             }}
           >
             Set LSP12IssuedAsset
