@@ -10,12 +10,14 @@ import { ethers } from 'ethers';
 import Onboard, { OnboardAPI } from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import { ConnectModalOptions } from '@web3-onboard/core/dist/types';
-import { EthereumProvider as WalletConnectProvider } from '@walletconnect/ethereum-provider';
+import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react';
 import luksoModule from '@lukso/web3-onboard-config';
 
 import supportedNetworks from '@/consts/SupportedNetworks.json';
+import { UP_CLOUD_APP, UP_EXTENSION_CHROME } from '@/consts/constants';
 import { config } from '@/app/config';
 
+// All supported provider methods
 type WalletToolType = 'PlainProvider' | 'Web3Onboard' | 'WalletConnect';
 
 // Web3-Onboard: LUKSO provider initialization
@@ -99,14 +101,46 @@ const walletConnectMetadata = {
   icons: [config.metadata.icon],
 };
 
-// Wallet Connect: Chain Data
-const walletConnectRpcMap: Record<string, string> = {};
-const walletConnectOptionalChains: number[] = [];
+// Wallet Connect: Configuration Element
+const walletConnectConfig = defaultConfig({
+  metadata: walletConnectMetadata,
+});
 
-supportedNetworks.forEach((network) => {
-  const chainId = parseInt(network.chainId, 10); // Ensure chainId is a number
-  walletConnectRpcMap[chainId] = network.rpcUrl;
-  walletConnectOptionalChains.push(chainId);
+// Wallet Connect: Chain Data
+const walletConnectSupportedChains = supportedNetworks.map((network) => ({
+  chainId: parseInt(network.chainId, 10),
+  name: network.name,
+  currency: network.token,
+  explorerUrl: network.explorer,
+  rpcUrl: network.rpcUrl,
+}));
+
+// Wallet Connect: Chain Images
+const walletConnectChainImages = {
+  42: '/lyx_token_symbol.svg',
+  4201: '/lyx_token_symbol.svg',
+};
+
+// WalletConnect: Web3 Modal Instance
+const walletConnectInstance = createWeb3Modal({
+  ethersConfig: walletConnectConfig,
+  chains: walletConnectSupportedChains,
+  projectId: config.walletTools.walletConnectProjectID,
+  chainImages: walletConnectChainImages,
+  // Custom Universal Profile Wallet Integration
+  // https://docs.walletconnect.com/web3modal/react/options#customwallets
+  // TODO: Implement manual wallet connector:
+  // https://docs.walletconnect.com/web3modal/v2/react/wagmi/custom-wallets
+  customWallets: [
+    {
+      id: '1',
+      name: 'Universal Profiles',
+      homepage: UP_EXTENSION_CHROME,
+      image_url: '/universal_profile_icon.svg',
+      webapp_link: UP_CLOUD_APP,
+    },
+  ],
+  themeMode: 'light',
 });
 
 // Regular Provider Setup
@@ -167,7 +201,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     isVerified: false,
   });
 
-  // Adjust this state value to disable Web3-Onboard
+  // Adjust this state value to change the active provider
   const [walletTool, setWalletTool] = useState<WalletToolType>('WalletConnect');
 
   const connectAccount = useCallback(
@@ -210,10 +244,10 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     }
     /**
      * If WalletConnect is enabled, also
-     * clear the external wallet state
+     * disconnect the external wallet state
      */
-    if (walletTool === 'Web3Onboard') {
-      // TODO:
+    if (walletTool === 'WalletConnect') {
+      walletConnectInstance.disconnect();
     }
   }, [walletTool]);
 
@@ -247,25 +281,23 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         }
       }
     }
-    if (walletTool === 'WalletConnect') {
-      // Initialize WalletConnect Provider
-      try {
-        const walletConnectProvider = await WalletConnectProvider.init({
-          projectId: config.walletTools.walletConnectProjectID,
-          metadata: walletConnectMetadata,
-          showQrModal: true,
-          optionalChains: walletConnectOptionalChains as [number, ...number[]],
-          rpcMap: walletConnectRpcMap,
-        });
-
-        const accounts = await walletConnectProvider.enable();
-        const selectedAccount = accounts[0];
-        if (selectedAccount) {
-          const provider = new ethers.BrowserProvider(walletConnectProvider);
-          connectAccount(provider, selectedAccount);
-        }
-      } catch (error) {
-        console.log('User rejected connection');
+    // If Wallet Connect is enabled
+    else if (walletTool === 'WalletConnect') {
+      const isConnected = walletConnectInstance.getIsConnected();
+      if (isConnected) {
+        // There's a previously connected wallet, restore the connection
+        const walletProvider = walletConnectInstance.getWalletProvider();
+        const walletAddress = walletConnectInstance.getAddress();
+        if (!walletProvider || !walletAddress) return;
+        const walletConnectProvider = new ethers.BrowserProvider(
+          walletProvider
+        );
+        connectAccount(walletConnectProvider, walletAddress);
+      } else {
+        const object = await walletConnectInstance.open();
+        // TODO: Implement connection. Modal does not throw
+        // when rejected from the user side. Likely necessary
+        // to subscribe to Web3ModalEvents or Web3ModalErrors
       }
     }
     // Regular Connection
@@ -380,6 +412,8 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
       }
       if (walletTool === 'WalletConnect') {
         // TODO:
+        // Check for Wallet Connect changes
+        // from State or Web3WalletEvents
       }
     } else {
       console.log('No wallet extension found');
@@ -398,10 +432,10 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
     updateAccountInfo({ ...accountData, isVerified: isVerified });
   };
 
-  // Toggle function
-  const toggleWalletTool = (walletTool: WalletToolType) => {
+  // Switch active provider option
+  function toggleWalletTool(walletTool: WalletToolType) {
     setWalletTool(walletTool);
-  };
+  }
 
   return (
     <EthereumContext.Provider
