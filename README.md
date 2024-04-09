@@ -13,7 +13,7 @@ More information is available on our 👉 [technical documentation](https://docs
 - Reusable components for Universal Profiles, Assets, and Vaults
 - Shared contexts for Profiles, Networks, and the Extension
 - Network, interface, and metadata detection
-- Integrates `web3-onboard` for extension selection
+- Multiple Providers: [Web3 Onboard](https://onboard.blocknative.com/docs/overview/introduction), [Wallet Connect](https://docs.walletconnect.com/web3modal/about), or plain injection
 - Built-in [`ethers.js`](https://docs.ethers.org/), [`erc725.js`](https://docs.lukso.tech/tools/erc725js/getting-started), [`lsp-smart-contracts`](https://docs.lukso.tech/tools/lsp-smart-contracts/getting-started)
 - Uses `Tailwind`, `Prettier`, `TypeScript`
 
