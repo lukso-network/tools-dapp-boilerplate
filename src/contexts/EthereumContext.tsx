@@ -14,7 +14,6 @@ import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react';
 import luksoModule from '@lukso/web3-onboard-config';
 
 import supportedNetworks from '@/consts/SupportedNetworks.json';
-import { UP_CLOUD_APP, UP_EXTENSION_CHROME } from '@/consts/constants';
 import { config } from '@/app/config';
 
 // All supported provider methods
@@ -127,19 +126,9 @@ const walletConnectInstance = createWeb3Modal({
   chains: walletConnectSupportedChains,
   projectId: config.walletTools.walletConnectProjectID,
   chainImages: walletConnectChainImages,
-  // Custom Universal Profile Wallet Integration
-  // https://docs.walletconnect.com/web3modal/react/options#customwallets
-  // TODO: Implement manual wallet connector:
-  // https://docs.walletconnect.com/web3modal/v2/react/wagmi/custom-wallets
-  customWallets: [
-    {
-      id: '1',
-      name: 'Universal Profiles',
-      homepage: UP_EXTENSION_CHROME,
-      image_url: '/universal_profile_icon.svg',
-      webapp_link: UP_CLOUD_APP,
-    },
-  ],
+  // Hide featured wallets and only show the ones that are installed
+  featuredWalletIds: ['NONE'],
+  allWallets: 'HIDE',
   themeMode: 'light',
 });
 
@@ -294,10 +283,11 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         );
         connectAccount(walletConnectProvider, walletAddress);
       } else {
-        const object = await walletConnectInstance.open();
-        // TODO: Implement connection. Modal does not throw
-        // when rejected from the user side. Likely necessary
-        // to subscribe to Web3ModalEvents or Web3ModalErrors
+        // No connection, open window
+        await walletConnectInstance.open();
+        // TODO: Track if user has been connected
+        // Modal does not throw when rejected from the user side.
+        // Likely necessary to subscribe to Web3ModalEvents or Web3ModalErrors
       }
     }
     // Regular Connection

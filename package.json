@@ -14,7 +14,7 @@
     "@lukso/web3-onboard-config": "^1.1.2",
     "@web3-onboard/core": "^2.21.2",
     "@web3-onboard/injected-wallets": "^2.10.11",
-    "@web3modal/ethers": "^4.1.1",
+    "@web3modal/ethers": "^4.1.8",
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^6.11.1",
     "next": "14.1.0",
