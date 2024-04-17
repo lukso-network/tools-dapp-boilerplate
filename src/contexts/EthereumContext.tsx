@@ -157,7 +157,7 @@ const defaultValue: EthereumContextType = {
   connect: async () => {},
   disconnect: async () => {},
   walletTool: 'PlainProvider', // Set the initial wallet tool, adjust as necessary
-  toggleWalletTool: (walletTool: WalletToolType) => {},
+  toggleWalletTool: () => {},
   isVerified: false,
 };
 
@@ -227,7 +227,7 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         await web3OnboardComponent
           .disconnectWallet({ label: currentWallet.label })
           .catch((error) => {
-            console.error('Failed to disconnect wallet:', error);
+            console.log('Failed to disconnect wallet:', error);
           });
       }
     }
@@ -283,11 +283,28 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         );
         connectAccount(walletConnectProvider, walletAddress);
       } else {
-        // No connection, open window
+        // No connection, open wallet connect window
         await walletConnectInstance.open();
-        // TODO: Track if user has been connected
-        // Modal does not throw when rejected from the user side.
-        // Likely necessary to subscribe to Web3ModalEvents or Web3ModalErrors
+        // Subscribe to provider events, to track the connection
+        walletConnectInstance.subscribeProvider(
+          ({ provider, address, isConnected, error }) => {
+            if (error) {
+              console.log('Wallet Connect Error:', error);
+              // Remove locally stored account
+              disconnect();
+              return;
+            }
+            // If access was granted
+            if (isConnected && provider && address) {
+              const walletConnectProvider = new ethers.BrowserProvider(
+                provider
+              );
+              connectAccount(walletConnectProvider, address);
+              // Close wallet connect window
+              walletConnectInstance.close();
+            }
+          }
+        );
       }
     }
     // Regular Connection
@@ -401,9 +418,14 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
         };
       }
       if (walletTool === 'WalletConnect') {
-        // TODO:
-        // Check for Wallet Connect changes
-        // from State or Web3WalletEvents
+        walletConnectInstance.subscribeProvider(({ isConnected, error }) => {
+          if (error || !isConnected) {
+            // If the Wallet Connect has been disconnected or changed the network
+            disconnect();
+          }
+          // Hide the default popup during page refresh
+          walletConnectInstance.close();
+        });
       }
     } else {
       console.log('No wallet extension found');
@@ -424,6 +446,8 @@ export function EthereumProvider({ children }: { children: React.ReactNode }) {
 
   // Switch active provider option
   function toggleWalletTool(walletTool: WalletToolType) {
+    // Disconnect and hide UI elements from previous provider
+    disconnect();
     setWalletTool(walletTool);
   }
 
