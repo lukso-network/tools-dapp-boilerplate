@@ -35,9 +35,10 @@ const AssetRegistration: React.FC = () => {
   const { account, provider } = useEthereum();
   const { network } = useNetwork();
   const { issuedAssets } = useProfile();
-  const [newAsset, setNewAsset] = useState<string>('');
+  const [inputAsset, setInputAsset] = useState<string>('');
   const [issuedAssetsUpdated, setIssuedAssetsUpdated] = useState(false);
   const [allAssets, setAllAssets] = useState<string[]>([]);
+  const [newAssets, setNewAssets] = useState<string[]>([]);
   const [transaction, setTransaction] = useState({
     processing: false,
     receipt: null,
@@ -49,7 +50,7 @@ const AssetRegistration: React.FC = () => {
     const currentAssetAddresses = issuedAssets || [];
     const uniqueAssets = Array.from(new Set(currentAssetAddresses));
     setAllAssets(uniqueAssets);
-  }, [issuedAssets]);
+  }, [issuedAssets, account]);
 
   // check if the asset is LSP7 or LSP8
   const checkStandard = async (asset: string) => {
@@ -86,19 +87,22 @@ const AssetRegistration: React.FC = () => {
       { ipfsGateway: currentNetwork?.ipfsGateway }
     );
 
-    // encode transaction data
-    const issuedAssetMap: {
+    // encode transaction data of new assets
+    const newIssuedAssetMap: {
       keyName: string;
       dynamicKeyParts: string;
       value: string[];
     }[] = await Promise.all(
-      allAssets.map(async (asset: string, index: number) => {
+      newAssets.map(async (asset, index) => {
         const assetInterface = await checkStandard(asset);
 
         return {
           keyName: 'LSP12IssuedAssetsMap:<address>',
           dynamicKeyParts: asset,
-          value: [assetInterface, ERC725.encodeValueType('uint128', index)],
+          value: [
+            assetInterface,
+            ERC725.encodeValueType('uint128', allAssets.length + index),
+          ],
         };
       }, [])
     );
@@ -106,9 +110,11 @@ const AssetRegistration: React.FC = () => {
     const { keys: lsp12DataKeys, values: lsp12Values } = erc725.encodeData([
       {
         keyName: 'LSP12IssuedAssets[]',
-        value: allAssets,
+        value: newAssets,
+        startingIndex: allAssets.length,
+        totalArrayLength: allAssets.length + newAssets.length,
       },
-      ...issuedAssetMap,
+      ...newIssuedAssetMap,
     ]);
 
     const signer = await provider?.getSigner();
@@ -125,6 +131,8 @@ const AssetRegistration: React.FC = () => {
     myUniversalProfileContract
       .setDataBatch(lsp12DataKeys, lsp12Values)
       .then((tx: any) => {
+        // reset new asset list
+        setNewAssets([]);
         const explorerLink = currentNetwork
           ? `${currentNetwork.explorer}tx/${tx.hash}`
           : '#';
@@ -142,14 +150,15 @@ const AssetRegistration: React.FC = () => {
   };
 
   const handleAddAsset = async () => {
-    if (!allAssets.includes(newAsset.trim())) {
+    if (!allAssets.includes(inputAsset.trim())) {
       // Check if the asset already exists in the array to prevent duplicates
-      const assetStandard = await checkStandard(newAsset.trim());
+      const assetStandard = await checkStandard(inputAsset.trim());
       // Check if the input is an address of LSP7 or LSP8
-      if (!!assetStandard) {
+      if (assetStandard) {
         setTransaction({ ...transaction, receipt: null });
-        setAllAssets([...allAssets, newAsset.trim()]);
-        setNewAsset('');
+        setNewAssets([...newAssets, inputAsset.trim()]);
+        setAllAssets([...allAssets, inputAsset.trim()]);
+        setInputAsset('');
         setIssuedAssetsUpdated(true);
       } else {
         console.log('Only LSP7 or LSP8 assets can be added.');
@@ -157,7 +166,7 @@ const AssetRegistration: React.FC = () => {
     } else {
       console.log('Asset already exists.');
     }
-    setNewAsset('');
+    setInputAsset('');
   };
 
   const { processing, receipt, receiptLink } = transaction;
@@ -176,8 +185,8 @@ const AssetRegistration: React.FC = () => {
           id="asset"
           name="asset"
           placeholder="Asset Address"
-          value={newAsset}
-          onChange={(e) => setNewAsset(e.target.value)}
+          value={inputAsset}
+          onChange={(e) => setInputAsset(e.target.value)}
         />
         <div className="flex justify-center items-center">
           <button
