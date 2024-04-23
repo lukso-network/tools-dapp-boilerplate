@@ -13,6 +13,7 @@ export const config = {
     url: 'https://chrome.google.com/webstore/detail/universal-profiles/abpickdkkbnbcoepogfhkhennhfhehfn?hl=en',
   },
   walletTools: {
-    walletConnectProjectID: 'f38002254154fd4b603998e31923bfcc',
+    // Exchange this value with your own project ID
+    walletConnectProjectID: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
   },
 };

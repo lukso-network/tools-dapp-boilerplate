@@ -33,6 +33,14 @@ Install all packages and libraries:
 npm install
 ```
 
+Setup local environment variables:
+
+> If you use Wallet Connect, you will have to import a Project ID. You can simply copy the example environment file and input the parameter.
+
+```bash
+cp .env.local.example .env.local
+```
+
 Run the development server:
 
 ```bash

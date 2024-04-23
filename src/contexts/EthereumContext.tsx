@@ -124,7 +124,8 @@ const walletConnectChainImages = {
 const walletConnectInstance = createWeb3Modal({
   ethersConfig: walletConnectConfig,
   chains: walletConnectSupportedChains,
-  projectId: config.walletTools.walletConnectProjectID || '',
+  // Adjust project ID, falls back to default ID: 1
+  projectId: config.walletTools.walletConnectProjectID || '1',
   chainImages: walletConnectChainImages,
   // Hide featured wallets and only show the ones that are installed
   featuredWalletIds: ['NONE'],
