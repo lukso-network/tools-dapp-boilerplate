@@ -137,14 +137,9 @@ export default function Home() {
               rel="noopener noreferrer"
               className="text-blue-500 hover:text-blue-700 ml-1"
             >
-              GitHub.
+              GitHub
             </a>
-            <a
-              href="https://docs.lukso.tech/learn/dapp-developer/getting-started"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-700"
-            ></a>
+            .
           </div>
         </div>
       </main>
