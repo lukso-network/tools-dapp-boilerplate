@@ -11,8 +11,8 @@ export default function Home() {
         <main className="flex flex-col items-center justify-between px-16 pb-4 pt-6">
           <div className="my-2 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
             <p className="fixed left-0 top-0 flex w-full justify-center lg:static lg:w-auto  lg:rounded-xl lg:p-4 lg:border border-red-100 bg-pink-50 font-mono">
-              Start 🆙 your development by editing&nbsp;
-              <code className="font-mono font-bold">
+              Start 🆙 your development by editing
+              <code className="font-mono font-bold ml-1">
                 src/app/pages/index.tsx
               </code>
             </p>
@@ -122,15 +122,14 @@ export default function Home() {
 
             <div className="rounded-lg border border-red-100 p-5 bg-pink-50 mt-4 text-center">
               This application framework was created using Next for React. Visit
-              the{' '}
+              the
               <a
                 href="https://docs.lukso.tech/learn/dapp-developer/getting-started"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500 hover:text-blue-700"
+                className="text-blue-500 hover:text-blue-700 mx-1"
               >
-                {' '}
-                Developer Documentation{' '}
+                Developer Documentation
               </a>
               or fork its code on
               <a
