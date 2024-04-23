@@ -63,14 +63,13 @@ const AssetRegistration: React.FC = () => {
       INTERFACE_IDS.LSP8IdentifiableDigitalAsset
     );
 
-    // Refactoring the nested ternary into if-else statements
     if (isLSP7) {
       return INTERFACE_IDS.LSP7DigitalAsset;
-    } else if (isLSP8) {
-      return INTERFACE_IDS.LSP8IdentifiableDigitalAsset;
-    } else {
-      return false;
     }
+    if (isLSP8) {
+      return INTERFACE_IDS.LSP8IdentifiableDigitalAsset;
+    }
+    return false;
   };
 
   const registerAssets = async () => {
