@@ -14,7 +14,6 @@ import luksoModule from '@lukso/web3-onboard-config';
 
 import supportedNetworks from '@/consts/SupportedNetworks.json';
 import { config } from '@/app/config';
-import { BrowserProvider } from 'ethers';
 
 // Web3-Onboard: LUKSO provider initialization
 const onboardLuksoProvider = luksoModule();
@@ -95,7 +94,7 @@ interface EthereumContextType {
   account: string | null;
   updateVerification: (isVerified: boolean) => void;
   connect: () => Promise<void>;
-  disconnect: () => void;
+  disconnect: () => Promise<void>;
   useOnboard: boolean;
   toggleOnboard: () => void; // Toggle between Web3-Onboard and regular provider
   isVerified: boolean; // Check if user is signed in
@@ -137,7 +136,9 @@ export function useEthereum() {
  * @param children - components using the Ethereum context.
  */
 
-export function EthereumProvider({ children }: { children: React.ReactNode }) {
+export function EthereumProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   // State for the Ethereum provider and the connected account
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
 

@@ -9,45 +9,43 @@ import SignInButton from '@/components/SignInButton';
  */
 export default function Components() {
   return (
-    <>
-      <div className="home-background">
-        <div className="flex items-center justify-center main-content">
-          <div>
-            <div className="elementDescription">
-              <div className="opacity-70">ConnectButton.tsx</div>
-              <div className="elementBox">
-                <ConnectButton />
-              </div>
-            </div>
-            <div className="elementDescription">
-              <div className="opacity-70">SignInButton.tsx</div>
-              <div className="elementBox">
-                <SignInButton />
-              </div>
-            </div>
-            <div className="elementDescription">
-              <div className="opacity-70">NetworkSwitcher.tsx</div>
-              <div className="elementBox">
-                <NetworkSwitcher />
-              </div>
+    <div className="home-background">
+      <div className="flex items-center justify-center main-content">
+        <div>
+          <div className="elementDescription">
+            <div className="opacity-70">ConnectButton.tsx</div>
+            <div className="elementBox">
+              <ConnectButton />
             </div>
           </div>
-          <div>
-            <div className="elementDescription">
-              <div className="opacity-70">ProfilePreview.tsx</div>
-              <div className="elementBox">
-                <ProfilePreview />
-              </div>
+          <div className="elementDescription">
+            <div className="opacity-70">SignInButton.tsx</div>
+            <div className="elementBox">
+              <SignInButton />
             </div>
-            <div className="elementDescription">
-              <div className="opacity-70">AssetRegistration.tsx</div>
-              <div className="elementBox">
-                <AssetRegistration />
-              </div>
+          </div>
+          <div className="elementDescription">
+            <div className="opacity-70">NetworkSwitcher.tsx</div>
+            <div className="elementBox">
+              <NetworkSwitcher />
+            </div>
+          </div>
+        </div>
+        <div>
+          <div className="elementDescription">
+            <div className="opacity-70">ProfilePreview.tsx</div>
+            <div className="elementBox">
+              <ProfilePreview />
+            </div>
+          </div>
+          <div className="elementDescription">
+            <div className="opacity-70">AssetRegistration.tsx</div>
+            <div className="elementBox">
+              <AssetRegistration />
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

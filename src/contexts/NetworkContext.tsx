@@ -30,7 +30,9 @@ export function useNetwork() {
  *
  * @param children - components using the Network context.
  */
-export function NetworkProvider({ children }: { children: React.ReactNode }) {
+export function NetworkProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   // Gloabl provider object
   const { provider } = useEthereum();
 
