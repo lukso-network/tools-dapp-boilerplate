@@ -138,9 +138,9 @@ interface EthereumContextType {
   account: string | null;
   updateVerification: (isVerified: boolean) => void;
   connect: () => Promise<void>;
-  disconnect: () => void;
+  disconnect: () => Promise<void>;
   walletTool: WalletToolType;
-  toggleWalletTool: (walletTool: WalletToolType) => void;
+  toggleWalletTool: (walletTool: WalletToolType) => void; // Toggle between providers
   isVerified: boolean; // Check if user is signed in
 }
 
@@ -180,7 +180,9 @@ export function useEthereum() {
  * @param children - components using the Ethereum context.
  */
 
-export function EthereumProvider({ children }: { children: React.ReactNode }) {
+export function EthereumProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   // State for the Ethereum provider and the connected account
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
 

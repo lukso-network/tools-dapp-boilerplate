@@ -100,7 +100,7 @@ const ProfilePreview: React.FC = () => {
           <div className="flex justify-center mt-2">
             {profile.tags.map((tag, index) => (
               <a
-                key={index}
+                key={`${tag}-${index}`}
                 className=" my-1 bg-pink-200 text-pink-800 rounded-full px-2 py-1 mx-1 text-xs"
               >
                 {tag}
