@@ -61,7 +61,9 @@ export function useProfile() {
  *
  * @param children - Child components using the Profile context.
  */
-export function ProfileProvider({ children }: { children: React.ReactNode }) {
+export function ProfileProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   // State for the Profile provider
   const { account } = useEthereum();
   const { network } = useNetwork();
@@ -123,7 +125,9 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
       try {
         // Download and verify the full profile metadata
         const profileMetaData = await erc725js.fetchData('LSP3Profile');
-        const lsp12IssuedAssets = await erc725js.fetchData('LSP12IssuedAssets[]');
+        const lsp12IssuedAssets = await erc725js.fetchData(
+          'LSP12IssuedAssets[]'
+        );
 
         if (
           profileMetaData.value &&

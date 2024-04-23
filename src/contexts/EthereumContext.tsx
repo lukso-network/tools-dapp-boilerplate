@@ -136,7 +136,9 @@ export function useEthereum() {
  * @param children - components using the Ethereum context.
  */
 
-export function EthereumProvider({ children }: { children: React.ReactNode }) {
+export function EthereumProvider({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   // State for the Ethereum provider and the connected account
   const [provider, setProvider] = useState<ethers.BrowserProvider | null>(null);
 
