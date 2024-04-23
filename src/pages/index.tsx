@@ -17,12 +17,12 @@ export default function Home() {
           </p>
           <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
             <a
-              className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
+              className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0 mr-1"
               href="https://github.com/lukso-network"
               target="_blank"
               rel="noopener noreferrer"
             >
-              by{' '}
+              by
               <div className="h-10 w-28 relative">
                 <Image
                   src="/lukso_wordmark_black.svg"
@@ -55,8 +55,8 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <h2 className={`mb-3 text-2xl font-semibold`}>
-                  Tech Docs{' '}
-                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                  Tech Docs
+                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none ml-1">
                     ↗️
                   </span>
                 </h2>
@@ -72,8 +72,8 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <h2 className={`mb-3 text-2xl font-semibold`}>
-                  Inspector{' '}
-                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                  Inspector
+                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none ml-1">
                     ↗️
                   </span>
                 </h2>
@@ -89,8 +89,8 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <h2 className={`mb-3 text-2xl font-semibold`}>
-                  Test App{' '}
-                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                  Test App
+                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none ml-1">
                     ↗️
                   </span>
                 </h2>
@@ -107,8 +107,8 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <h2 className={`mb-3 text-2xl font-semibold`}>
-                  Playground{' '}
-                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                  Playground
+                  <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none ml-1">
                     ↗️
                   </span>
                 </h2>
@@ -135,9 +135,8 @@ export default function Home() {
               href="https://github.com/lukso-network/tools-dapp-boilerplate"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:text-blue-700"
+              className="text-blue-500 hover:text-blue-700 ml-1"
             >
-              {' '}
               GitHub.
             </a>
             <a
