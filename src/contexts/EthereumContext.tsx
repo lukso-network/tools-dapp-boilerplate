@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 
@@ -347,6 +348,17 @@ export function EthereumProvider({
     }
   }, [connectAccount, disconnect, walletTool]);
 
+  const updateAccountInfo = useCallback(
+    async (newData: AccountData) => {
+      setAccountData(newData);
+      if (typeof window !== 'undefined') {
+        // Save address and SIWE value to local storage
+        localStorage.setItem('accountData', JSON.stringify(newData));
+      }
+    },
+    [setAccountData]
+  );
+
   // Initialize the provider and listen for account/chain changes
   useEffect(() => {
     // Load user data from localStorage if available
@@ -432,19 +444,14 @@ export function EthereumProvider({
     } else {
       console.log('No wallet extension found');
     }
-  }, [accountData.account, connect, disconnect, walletTool]);
+  }, [accountData.account, connect, disconnect, walletTool, updateAccountInfo]);
 
-  const updateAccountInfo = async (newData: AccountData) => {
-    setAccountData(newData);
-    if (typeof window !== 'undefined') {
-      // save address and SIWE value to local storage
-      localStorage.setItem('accountData', JSON.stringify(newData));
-    }
-  };
-
-  const updateVerification = async (isVerified: boolean) => {
-    updateAccountInfo({ ...accountData, isVerified: isVerified });
-  };
+  const updateVerification = useCallback(
+    (isVerified: boolean) => {
+      updateAccountInfo({ ...accountData, isVerified });
+    },
+    [accountData, updateAccountInfo]
+  );
 
   // Switch active provider option
   function toggleWalletTool(walletTool: WalletToolType) {
@@ -453,19 +460,35 @@ export function EthereumProvider({
     setWalletTool(walletTool);
   }
 
+  /*
+   * Accessible context properties
+   * that only update on changes
+   */
+  const contextProperties = useMemo(
+    () => ({
+      provider,
+      account: accountData.account,
+      updateVerification,
+      connect,
+      disconnect,
+      walletTool,
+      toggleWalletTool,
+      isVerified: accountData.isVerified,
+    }),
+    [
+      provider,
+      accountData.account,
+      updateVerification,
+      connect,
+      disconnect,
+      useOnboard,
+      toggleOnboard,
+      accountData.isVerified,
+    ]
+  );
+
   return (
-    <EthereumContext.Provider
-      value={{
-        provider,
-        account: accountData.account,
-        updateVerification,
-        connect,
-        disconnect,
-        walletTool,
-        toggleWalletTool,
-        isVerified: accountData.isVerified,
-      }}
-    >
+    <EthereumContext.Provider value={contextProperties}>
       {children}
     </EthereumContext.Provider>
   );

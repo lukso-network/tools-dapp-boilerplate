@@ -52,7 +52,7 @@ const AssetRegistration: React.FC = () => {
     setAllAssets(uniqueAssets);
   }, [issuedAssets, account]);
 
-  // check if the asset is LSP7 or LSP8
+  // Check if the asset is LSP7 or LSP8
   const checkStandard = async (asset: string) => {
     const isLSP7 = await supportsInterface(
       asset,
@@ -62,11 +62,14 @@ const AssetRegistration: React.FC = () => {
       asset,
       INTERFACE_IDS.LSP8IdentifiableDigitalAsset
     );
-    return isLSP7
-      ? INTERFACE_IDS.LSP7DigitalAsset
-      : isLSP8
-        ? INTERFACE_IDS.LSP8IdentifiableDigitalAsset
-        : false;
+
+    if (isLSP7) {
+      return INTERFACE_IDS.LSP7DigitalAsset;
+    }
+    if (isLSP8) {
+      return INTERFACE_IDS.LSP8IdentifiableDigitalAsset;
+    }
+    return false;
   };
 
   const registerAssets = async () => {
@@ -87,7 +90,7 @@ const AssetRegistration: React.FC = () => {
       { ipfsGateway: currentNetwork?.ipfsGateway }
     );
 
-    // encode transaction data of new assets
+    // Encode transaction data of new assets
     const newIssuedAssetMap: {
       keyName: string;
       dynamicKeyParts: string;
@@ -131,7 +134,7 @@ const AssetRegistration: React.FC = () => {
     myUniversalProfileContract
       .setDataBatch(lsp12DataKeys, lsp12Values)
       .then((tx: any) => {
-        // reset new asset list
+        // Reset new asset list
         setNewAssets([]);
         const explorerLink = currentNetwork
           ? `${currentNetwork.explorer}tx/${tx.hash}`
