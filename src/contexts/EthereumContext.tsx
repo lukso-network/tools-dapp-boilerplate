@@ -454,11 +454,14 @@ export function EthereumProvider({
   );
 
   // Switch active provider option
-  function toggleWalletTool(walletTool: WalletToolType) {
-    // Disconnect and hide UI elements from previous provider
-    disconnect();
-    setWalletTool(walletTool);
-  }
+  const toggleWalletTool = useCallback(
+    (walletTool: WalletToolType) => {
+      // Disconnect and hide UI elements from previous provider
+      disconnect();
+      setWalletTool(walletTool);
+    },
+    [disconnect, setWalletTool]
+  );
 
   /*
    * Accessible context properties
@@ -481,8 +484,8 @@ export function EthereumProvider({
       updateVerification,
       connect,
       disconnect,
-      useOnboard,
-      toggleOnboard,
+      walletTool,
+      toggleWalletTool,
       accountData.isVerified,
     ]
   );
