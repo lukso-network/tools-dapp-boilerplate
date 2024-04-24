@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from 'react';
 
 import lsp3ProfileSchema from '@erc725/erc725.js/schemas/LSP3ProfileMetadata.json' assert { type: 'json' };
 import { ERC725, ERC725JSONSchema } from '@erc725/erc725.js';
@@ -150,8 +156,21 @@ export function ProfileProvider({
     fetchProfileData();
   }, [account, network]);
 
+  /*
+   * Accessible context properties
+   * that only update on changes
+   */
+  const contextProperties = useMemo(
+    () => ({
+      profile,
+      setProfile,
+      issuedAssets,
+    }),
+    [profile, setProfile, issuedAssets]
+  );
+
   return (
-    <ProfileContext.Provider value={{ profile, setProfile, issuedAssets }}>
+    <ProfileContext.Provider value={contextProperties}>
       {children}
     </ProfileContext.Provider>
   );
