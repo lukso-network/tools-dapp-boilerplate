@@ -11,10 +11,14 @@ import { ethers } from 'ethers';
 import Onboard, { OnboardAPI } from '@web3-onboard/core';
 import injectedModule from '@web3-onboard/injected-wallets';
 import { ConnectModalOptions } from '@web3-onboard/core/dist/types';
+import { createWeb3Modal, defaultConfig } from '@web3modal/ethers/react';
 import luksoModule from '@lukso/web3-onboard-config';
 
 import supportedNetworks from '@/consts/SupportedNetworks.json';
 import { config } from '@/app/config';
+
+// All supported provider methods
+type WalletToolType = 'PlainProvider' | 'Web3Onboard' | 'WalletConnect';
 
 // Web3-Onboard: LUKSO provider initialization
 const onboardLuksoProvider = luksoModule();
@@ -89,15 +93,55 @@ const web3OnboardComponent: OnboardAPI = Onboard({
   connect: onboardLuksoConnection,
 });
 
-// Regular provider setup
+// Wallet Connect: Metadata Setup
+const walletConnectMetadata = {
+  name: config.metadata.title,
+  description: config.metadata.description,
+  url: config.metadata.url,
+  icons: [config.metadata.icon],
+};
+
+// Wallet Connect: Configuration Element
+const walletConnectConfig = defaultConfig({
+  metadata: walletConnectMetadata,
+});
+
+// Wallet Connect: Chain Data
+const walletConnectSupportedChains = supportedNetworks.map((network) => ({
+  chainId: parseInt(network.chainId, 10),
+  name: network.name,
+  currency: network.token,
+  explorerUrl: network.explorer,
+  rpcUrl: network.rpcUrl,
+}));
+
+// Wallet Connect: Chain Images
+const walletConnectChainImages = {
+  42: '/lyx_token_symbol.svg',
+  4201: '/lyx_token_symbol.svg',
+};
+
+// WalletConnect: Web3 Modal Instance
+const walletConnectInstance = createWeb3Modal({
+  ethersConfig: walletConnectConfig,
+  chains: walletConnectSupportedChains,
+  // Adjust project ID, falls back to default ID: 1
+  projectId: config.walletTools.walletConnectProjectID || '1',
+  chainImages: walletConnectChainImages,
+  // Hide featured wallets and only show the ones that are installed
+  featuredWalletIds: ['NONE'],
+  themeMode: 'light',
+});
+
+// Regular Provider Setup
 interface EthereumContextType {
   provider: ethers.BrowserProvider | null;
   account: string | null;
   updateVerification: (isVerified: boolean) => void;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
-  useOnboard: boolean;
-  toggleOnboard: () => void; // Toggle between Web3-Onboard and regular provider
+  walletTool: WalletToolType;
+  toggleWalletTool: (walletTool: WalletToolType) => void; // Toggle between providers
   isVerified: boolean; // Check if user is signed in
 }
 
@@ -113,8 +157,8 @@ const defaultValue: EthereumContextType = {
   updateVerification: () => {},
   connect: async () => {},
   disconnect: async () => {},
-  useOnboard: false,
-  toggleOnboard: () => {},
+  walletTool: 'PlainProvider', // Set the initial wallet tool, adjust as necessary
+  toggleWalletTool: () => {},
   isVerified: false,
 };
 
@@ -149,8 +193,8 @@ export function EthereumProvider({
     isVerified: false,
   });
 
-  // Adjust this state value to disable Web3-Onboard
-  const [useOnboard, setUseOnboard] = useState(true);
+  // Adjust this state value to change the active provider
+  const [walletTool, setWalletTool] = useState<WalletToolType>('WalletConnect');
 
   const connectAccount = useCallback(
     (provider: ethers.BrowserProvider, account: string) => {
@@ -178,7 +222,7 @@ export function EthereumProvider({
      * If Web3-Onboard is enabled, also
      * clear the external wallet state
      */
-    if (useOnboard) {
+    if (walletTool === 'Web3Onboard') {
       // Get the current provider state
       const onboardState = web3OnboardComponent.state.get();
       const [currentWallet] = onboardState.wallets;
@@ -186,16 +230,23 @@ export function EthereumProvider({
         await web3OnboardComponent
           .disconnectWallet({ label: currentWallet.label })
           .catch((error) => {
-            console.error('Failed to disconnect wallet:', error);
+            console.log('Failed to disconnect wallet:', error);
           });
       }
     }
-  }, [useOnboard]);
+    /**
+     * If WalletConnect is enabled, also
+     * disconnect the external wallet state
+     */
+    if (walletTool === 'WalletConnect') {
+      walletConnectInstance.disconnect();
+    }
+  }, [walletTool]);
 
   // Connect to the Ethereum network in the user's extension
   const connect = useCallback(async () => {
     // If Web3-Onboard is enabled
-    if (useOnboard) {
+    if (walletTool === 'Web3Onboard') {
       const previouslySelectedWallets =
         web3OnboardComponent.state.get().wallets;
       if (previouslySelectedWallets.length > 0) {
@@ -220,6 +271,43 @@ export function EthereumProvider({
           // Remove locally stored account
           disconnect();
         }
+      }
+    }
+    // If Wallet Connect is enabled
+    else if (walletTool === 'WalletConnect') {
+      const isConnected = walletConnectInstance.getIsConnected();
+      if (isConnected) {
+        // There's a previously connected wallet, restore the connection
+        const walletProvider = walletConnectInstance.getWalletProvider();
+        const walletAddress = walletConnectInstance.getAddress();
+        if (!walletProvider || !walletAddress) return;
+        const walletConnectProvider = new ethers.BrowserProvider(
+          walletProvider
+        );
+        connectAccount(walletConnectProvider, walletAddress);
+      } else {
+        // No connection, open wallet connect window
+        await walletConnectInstance.open();
+        // Subscribe to provider events, to track the connection
+        walletConnectInstance.subscribeProvider(
+          ({ provider, address, isConnected, error }) => {
+            if (error) {
+              console.log('Wallet Connect Error:', error);
+              // Remove locally stored account
+              disconnect();
+              return;
+            }
+            // If access was granted
+            if (isConnected && provider && address) {
+              const walletConnectProvider = new ethers.BrowserProvider(
+                provider
+              );
+              connectAccount(walletConnectProvider, address);
+              // Close wallet connect window
+              walletConnectInstance.close();
+            }
+          }
+        );
       }
     }
     // Regular Connection
@@ -258,7 +346,7 @@ export function EthereumProvider({
         return;
       }
     }
-  }, [connectAccount, disconnect, useOnboard]);
+  }, [connectAccount, disconnect, walletTool]);
 
   const updateAccountInfo = useCallback(
     async (newData: AccountData) => {
@@ -326,7 +414,7 @@ export function EthereumProvider({
         disconnect();
       });
 
-      if (useOnboard) {
+      if (walletTool === 'Web3Onboard') {
         // Check for Web3-Onboard changes
         const subscription = web3OnboardComponent.state
           .select('wallets')
@@ -343,10 +431,20 @@ export function EthereumProvider({
           subscription.unsubscribe();
         };
       }
+      if (walletTool === 'WalletConnect') {
+        walletConnectInstance.subscribeProvider(({ isConnected, error }) => {
+          if (error || !isConnected) {
+            // If the Wallet Connect has been disconnected or changed the network
+            disconnect();
+          }
+          // Hide the default popup during page refresh
+          walletConnectInstance.close();
+        });
+      }
     } else {
       console.log('No wallet extension found');
     }
-  }, [accountData.account, connect, disconnect, useOnboard, updateAccountInfo]);
+  }, [accountData.account, connect, disconnect, walletTool, updateAccountInfo]);
 
   const updateVerification = useCallback(
     (isVerified: boolean) => {
@@ -355,9 +453,15 @@ export function EthereumProvider({
     [accountData, updateAccountInfo]
   );
 
-  const toggleOnboard = useCallback(() => {
-    setUseOnboard((prev) => !prev);
-  }, []);
+  // Switch active provider option
+  const toggleWalletTool = useCallback(
+    (walletTool: WalletToolType) => {
+      // Disconnect and hide UI elements from previous provider
+      disconnect();
+      setWalletTool(walletTool);
+    },
+    [disconnect, setWalletTool]
+  );
 
   /*
    * Accessible context properties
@@ -370,8 +474,8 @@ export function EthereumProvider({
       updateVerification,
       connect,
       disconnect,
-      useOnboard,
-      toggleOnboard,
+      walletTool,
+      toggleWalletTool,
       isVerified: accountData.isVerified,
     }),
     [
@@ -380,8 +484,8 @@ export function EthereumProvider({
       updateVerification,
       connect,
       disconnect,
-      useOnboard,
-      toggleOnboard,
+      walletTool,
+      toggleWalletTool,
       accountData.isVerified,
     ]
   );

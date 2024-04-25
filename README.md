@@ -13,7 +13,7 @@ More information is available on our 👉 [technical documentation](https://docs
 - Reusable components for Universal Profiles, Assets, and Vaults
 - Shared contexts for Profiles, Networks, and the Extension
 - Network, interface, and metadata detection
-- Integrates `web3-onboard` for extension selection
+- Multiple Providers: [Web3 Onboard](https://onboard.blocknative.com/docs/overview/introduction), [Wallet Connect](https://docs.walletconnect.com/web3modal/about), or plain injection
 - Built-in [`ethers.js`](https://docs.ethers.org/), [`erc725.js`](https://docs.lukso.tech/tools/erc725js/getting-started), [`lsp-smart-contracts`](https://docs.lukso.tech/tools/lsp-smart-contracts/getting-started)
 - Uses `Tailwind`, `Prettier`, `TypeScript`
 
@@ -31,6 +31,14 @@ Install all packages and libraries:
 
 ```bash
 npm install
+```
+
+Setup local environment variables:
+
+> If you use Wallet Connect, you will have to import a Project ID. You can simply copy the example environment file and input the parameter.
+
+```bash
+cp .env.local.example .env.local
 ```
 
 Run the development server:

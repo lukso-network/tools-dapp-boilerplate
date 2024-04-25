@@ -6,16 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pages:build": "next-on-pages",
+    "pages:deploy": "wrangler pages publish .vercel/output/static",
+    "pages:watch": "next-on-pages --watch",
+    "pages:dev": "wrangler pages dev .vercel/output/static"
   },
   "dependencies": {
+    "@cloudflare/next-on-pages": "^1.11.1",
     "@erc725/erc725.js": "^0.24.2",
     "@lukso/lsp-smart-contracts": "^0.14.0",
     "@lukso/web3-onboard-config": "^1.1.2",
     "@web3-onboard/core": "^2.21.2",
     "@web3-onboard/injected-wallets": "^2.10.11",
+    "@web3modal/ethers": "^4.1.11",
     "ethereum-blockies-base64": "^1.0.2",
-    "ethers": "^6.8.1",
+    "ethers": "^6.11.1",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
@@ -31,7 +37,8 @@
     "postcss": "^8",
     "prettier": "^3.1.0",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^34.1.2"
   },
   "engines": {
     "node": ">=20.0.0"

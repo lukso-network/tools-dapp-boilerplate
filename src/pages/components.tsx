@@ -3,6 +3,7 @@ import NetworkSwitcher from '@/components/NetworkSwitcher/NetworkSwitcher';
 import ProfilePreview from '@/components/ProfilePreview';
 import AssetRegistration from '@/components/AssetRegistration';
 import SignInButton from '@/components/SignInButton';
+import ProviderSwitcher from '@/components/ProviderSwitcher';
 
 /**
  * Displays the contents of the components page within the app.
@@ -16,6 +17,12 @@ export default function Components() {
             <div className="opacity-70">ConnectButton.tsx</div>
             <div className="elementBox">
               <ConnectButton />
+            </div>
+            <div className="elementDescription">
+              <div className="opacity-70">ProviderSwitcher.tsx</div>
+              <div className="elementBox">
+                <ProviderSwitcher />
+              </div>
             </div>
           </div>
           <div className="elementDescription">
