@@ -193,6 +193,17 @@ export function EthereumProvider({
     isVerified: false,
   });
 
+  const updateAccountInfo = useCallback(
+    async (newData: AccountData) => {
+      setAccountData(newData);
+      if (typeof window !== 'undefined') {
+        // Save address and SIWE value to local storage
+        localStorage.setItem('accountData', JSON.stringify(newData));
+      }
+    },
+    [setAccountData]
+  );
+
   // Adjust this state value to change the active provider
   const [walletTool, setWalletTool] = useState<WalletToolType>('WalletConnect');
 
@@ -204,7 +215,7 @@ export function EthereumProvider({
         isVerified: false,
       });
     },
-    []
+    [updateAccountInfo]
   );
 
   /**
@@ -347,17 +358,6 @@ export function EthereumProvider({
       }
     }
   }, [connectAccount, disconnect, walletTool]);
-
-  const updateAccountInfo = useCallback(
-    async (newData: AccountData) => {
-      setAccountData(newData);
-      if (typeof window !== 'undefined') {
-        // Save address and SIWE value to local storage
-        localStorage.setItem('accountData', JSON.stringify(newData));
-      }
-    },
-    [setAccountData]
-  );
 
   // Initialize the provider and listen for account/chain changes
   useEffect(() => {

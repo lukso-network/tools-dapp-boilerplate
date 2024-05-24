@@ -39,7 +39,7 @@ export async function supportsInterface(
 }
 
 // HOW TO USE:
-// import { INTERFACE_IDS } from '@lukso/lsp-smart-contracts/dist/constants.cjs.js'
+// import { INTERFACE_IDS } from '@lukso/lsp-smart-contracts/constants'
 // const isLSP0 = await supportsInterface( contractAddress, INTERFACE_IDS.LSP0ERC725Account)
 
 /*

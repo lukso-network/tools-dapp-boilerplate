@@ -10,7 +10,7 @@ import { useProfile } from '@/contexts/ProfileContext';
 
 import supportedNetworks from '@/consts/SupportedNetworks.json';
 import { supportsInterface } from '@/utils/interfaceDetection';
-import { INTERFACE_IDS } from '@lukso/lsp-smart-contracts/dist/constants.cjs.js';
+import { INTERFACE_IDS } from '@lukso/lsp-smart-contracts/constants';
 
 import { useEffect, useState } from 'react';
 
