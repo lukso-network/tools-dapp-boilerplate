@@ -2,7 +2,7 @@
   {
     "name": "LUKSO Mainnet",
     "chainId": "42",
-    "rpcUrl": "https://rpc.lukso.gateway.fm",
+    "rpcUrl": "https://42.rpc.thirdweb.com",
     "ipfsGateway": "https://api.universalprofile.cloud/ipfs",
     "explorer": "https://explorer.execution.mainnet.lukso.network/",
     "token": "LYX"
@@ -10,7 +10,7 @@
   {
     "name": "LUKSO Testnet",
     "chainId": "4201",
-    "rpcUrl": "https://rpc.testnet.lukso.gateway.fm",
+    "rpcUrl": "https://4201.rpc.thirdweb.com",
     "ipfsGateway": "https://api.universalprofile.cloud/ipfs",
     "explorer": "https://explorer.execution.testnet.lukso.network/",
     "token": "LYXt"
